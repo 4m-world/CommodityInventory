@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:BaseContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+
+    xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
+    xmlns:ui="clr-namespace:MyInventoryApp.Views"
+    xmlns:viewModels="clr-namespace:MyInventoryApp.ViewModels"
+    xmlns:views="clr-namespace:MyInventoryApp.Views"
+    x:TypeArguments="viewModels:LoginViewModel"
+    x:Class="MyInventoryApp.Views.LoginPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Login" FontSize="Large" FontAttributes="Bold"
+                   HorizontalOptions="Center" VerticalOptions="Center"
+                   Margin="10"/>
+            <Entry Placeholder="Email" Text="{Binding Username}" 
+                   Margin="10, 50, 10, 10" />
+            <Entry Placeholder="Password" Text="{Binding Passwrod}"
+                   Margin="10" IsPassword="true"/>
+            <Button HorizontalOptions="Center"
+                    Margin="10"
+                    Text="Login"
+                    Command="{Binding LoginCommand}"/>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ui:BaseContentPage>
