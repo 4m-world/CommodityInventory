@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="UnitNameLabel" xml:space="preserve">
+        <value>Name:</value>
+        <comment>Label for input field</comment>
+    </data>
+    <data name="UnitAbbrLabel" xml:space="preserve">
+        <value>Abbrivation:</value>
+        <comment>Label for input field</comment>
+    </data>
+    <data name="UnitTypeLabel" xml:space="preserve">
+        <value>Type:</value>
+        <comment>Label for input field</comment>
+    </data>
+    <data name="UnitTypeVolumeLabel" xml:space="preserve">
+        <value>Volume Measurment</value>
+        <comment>Label for Volume unit type description</comment>
+    </data>
+    <data name="UnitTypeMassLabel" xml:space="preserve">
+        <value>Mass Measurment</value>
+        <comment>Label for Mass unit type description</comment>
+    </data>
+    <data name="UnitTypeAreaLabel" xml:space="preserve">
+        <value>Area Measurment</value>
+        <comment>Label for Area unit type description</comment>
+    </data>
+    <data name="CommodityNameLabel" xml:space="preserve">
+        <value>Commodity:</value>
+        <comment>Label for input field</comment>
+    </data>
+    <data name="CommodityAltNameLabel" xml:space="preserve">
+        <value>Alt. Name:</value>
+        <comment>Label for input field</comment>
+    </data>
+    <data name="CommodityBarcodeLabel" xml:space="preserve">
+        <value>Barcode Nr:</value>
+        <comment>Label for input field</comment>
+    </data>
+    <data name="CommodityUnitValueWeightLabel" xml:space="preserve">
+        <value>Weight:</value>
+        <comment>Label for input field</comment>
+    </data>
+    <data name="CommodityUnitValueSizeLabel" xml:space="preserve">
+        <value>Size:</value>
+        <comment>Label for input field</comment>
+    </data>
+    <data name="CommodityUnitValueAreaLabel" xml:space="preserve">
+        <value>Area:</value>
+        <comment>Label for input field</comment>
+    </data>
+    <data name="CommodityUnitLabel" xml:space="preserve">
+        <value>Measurment unit:</value>
+        <comment>Label for input field</comment>
+    </data>
+    <data name="CommodityPriceLabel" xml:space="preserve">
+        <value>Price:</value>
+        <comment>Label for input field</comment>
+    </data>
+    <data name="CommodityNotesLabel" xml:space="preserve">
+        <value>Notes:</value>
+        <comment>Label for input field</comment>
+    </data>
+    <data name="CommodityImagesLabel" xml:space="preserve">
+        <value>Images:</value>
+        <comment>Label for input field</comment>
+    </data>
+    <data name="NewButton" xml:space="preserve">
+        <value>Add New</value>
+    </data>
+    <data name="DeleteButton" xml:space="preserve">
+        <value>Delete Item</value>
+    </data>
+    <data name="DetailsButton" xml:space="preserve">
+        <value>Details</value>
+    </data>
+    <data name="SyncronizeButton" xml:space="preserve">
+        <value>Syncronize</value>
+    </data>
+    <data name="CommoditiesTitle" xml:space="preserve">
+        <value>Commodities</value>
+        <comment>Commodity section title</comment>
+    </data>
+    <data name="UnitsTitle" xml:space="preserve">
+        <value>Measurment Units</value>
+        <comment>Unit section title</comment>
+    </data>
+    <data name="SettingsTitle" xml:space="preserve">
+        <value>Settings</value>
+        <comment>Settings section title</comment>
+    </data>
+    <data name="AboutTitle" xml:space="preserve">
+        <value>About</value>
+        <comment>About section title</comment>
+    </data>
+</root>

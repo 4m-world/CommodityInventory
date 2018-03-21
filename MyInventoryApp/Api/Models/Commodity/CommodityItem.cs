@@ -24,5 +24,7 @@ namespace MyInventoryApp.Api.Models
         public IList<string> Images { get; set; }
 
         public DateTime CreateUtcDate { get; set; }
+
+        public bool IsSyncronized { get; set; }
     }
 }
