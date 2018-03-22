@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace MyInventoryApp.Pages
 {
-    public partial class MainView : StyledTabbedPage
+    public partial class MainView : ContentPage //StyledTabbedPage
     {
         public MainView()
         {

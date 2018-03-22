@@ -37,6 +37,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Templates\CommodityListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -85,6 +89,10 @@
     <Compile Include="i18n\AppResources.Designer.cs">
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Templates\CommodityListView.xaml.cs">
+      <DependentUpon>CommodityListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Labels\BarcodeLabel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">
@@ -142,6 +150,8 @@
     <Folder Include="Controls\CircleImageAbstraction\" />
     <Folder Include="Controls\Fab\" />
     <Folder Include="i18n\" />
+    <Folder Include="Pages\Templates\" />
+    <Folder Include="Controls\Labels\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.280555\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.280555\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />

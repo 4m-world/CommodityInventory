@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://xamarin.com/schemas/2014/forms" 
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+          x:Class="MyInventoryApp.Pages.Templates.CommodityListView"
+          xmlns:ui="clr-namespace:MyInventoryApp.Controls"
+          x:Name="list"
+          IsPullToRefreshEnabled="true"
+          RowHeight="80"
+          SeparatorVisibility="None"
+          AutomationId="commodityList">
+    <ListView.ItemTemplate>
+        <DataTemplate>
+            <ViewCell>
+                <ViewCell.View>
+                    <Grid AutomationId="commodityRoot">
+                        <AbsoluteLayout VerticalOptions="FillAndExpand" 
+                                        HorizontalOptions="FillAndExpand">
+                            <Label Text="" 
+                                   FontSize="Large" 
+                                   XAlign="Center" 
+                                   AbsoluteLayout.LayoutFlags="PositionProportional" 
+                                   AbsoluteLayout.LayoutBounds=".5,.5,-1,-1"/>
+                        </AbsoluteLayout>
+                        <StackLayout Padding="24,16,16,16" Spacing="20" Orientation="Horizontal" VerticalOptions="Center">
+                            <Label Text="{Binding Name}" VerticalOptions="Center" FontSize="28" YAlign="Center" TextColor="{StaticResource grayDark}" />
+                            <ui:BarcodeLabel BarcodeType="Barcode39" Text="{Binding Barcode}" VerticalOptions="Center" FontSize="12" YAlign="Center" TextColor="{StaticResource grayDark}" />
+
+                            
+                        </StackLayout>
+                    </Grid>
+                </ViewCell.View>
+            </ViewCell>
+        </DataTemplate>
+    </ListView.ItemTemplate>
+</ListView>

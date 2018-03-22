@@ -129,6 +129,7 @@
     <Compile Include="Controls\Fab\ObservableScrollView.cs" />
     <Compile Include="Controls\Fab\RecyclerViewScrollDetector.cs" />
     <Compile Include="Controls\Fab\ScrollViewScrollDetector.cs" />
+    <Compile Include="Renderers\BarcodLabelRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -161,6 +162,9 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\fab_shadow.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\fab_shadow.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\fab_shadow_mini.png" />
+    <AndroidResource Include="Resources\drawable\ic_sync_white.xml" />
+    <AndroidResource Include="Resources\drawable\ic_add_white.xml" />
+    <AndroidResource Include="Resources\drawable\ic_more_vert_white.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
@@ -175,6 +179,14 @@
     <Folder Include="Controls\" />
     <Folder Include="Controls\Fab\" />
     <Folder Include="Controls\Fab\Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="..\resources\fonts\free3of9\fre3of9x.ttf">
+      <Link>Assets\fre3of9x.ttf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\resources\fonts\free3of9\free3of9.ttf">
+      <Link>Assets\free3of9.ttf</Link>
+    </AndroidAsset>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Compat.25.4.0.2\build\MonoAndroid70\Xamarin.Android.Support.Compat.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Compat.25.4.0.2\build\MonoAndroid70\Xamarin.Android.Support.Compat.targets')" />

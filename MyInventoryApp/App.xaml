@@ -1,6 +1,96 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="MyInventoryApp.App">
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="MyInventoryApp.App">
     <Application.Resources>
-        <!-- Application resource dictionary -->
+        <ResourceDictionary>
+            <Color x:Key="asphaltLight">#6D8491</Color>
+            <Color x:Key="asphaltPrimary">#5c7d90</Color>
+            <Color x:Key="asphaltDark">#233743</Color>
+            <Color x:Key="grayUltraLight">#FFFFFF</Color>
+            <Color x:Key="grayLight">#F2F2F2</Color>
+            <Color x:Key="grayPrimary">#B9B9B9</Color>
+            <Color x:Key="grayDark">#959595</Color>
+            <Color x:Key="grayMedium">#B9B9B9</Color>
+
+            <Style x:Key="defaultActivity" TargetType="ActivityIndicator">
+                <Setter Property="Scale">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="x:Double" iOS="2" Android="1" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            <Style TargetType="ActivityIndicator" BasedOn="{StaticResource defaultActivity}" />
+
+            <Style x:Key="labelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource asphaltPrimary}" />
+                <Setter Property="FontSize">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="x:Double" iOS="14" Android="12" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="FontFamily" Value="SegoeUI" />
+            </Style>
+
+            <Style x:Key="header" TargetType="Label" BasedOn="{StaticResource labelStyle}">
+                <Setter Property="FontFamily" Value="SegoeUI" />
+                <Setter Property="TextColor" Value="{StaticResource grayLight}" />
+            </Style>
+            
+            <Style TargetType="Label" BasedOn="{StaticResource labelStyle}" />
+            
+            <Style x:Key="whiteLabelStyle" TargetType="Label" BasedOn="{StaticResource labelStyle}">
+                <Setter Property="TextColor" Value="#FFFFFF" />
+            </Style>
+            
+            <Style x:Key="sub" TargetType="Label" BasedOn="{StaticResource labelStyle}">
+                <Setter Property="TextColor" Value="{StaticResource grayDark}" />
+                <Setter Property="FontSize" Value="Small" />
+            </Style>
+            
+            <Style x:Key="buttonStyle" TargetType="Button">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BorderRadius" Value="4" />
+                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="BackgroundColor" Value="{StaticResource grayDark}" />
+                <Setter Property="HeightRequest">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="x:Double" iOS="40" Android="50" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            <Style TargetType="Button" BasedOn="{StaticResource buttonStyle}" />
+            
+            <!--<Style TargetType="local:SportButton" BasedOn="{StaticResource buttonStyle}" />-->
+            
+            <Style x:Key="deleteButtonStyle" TargetType="Button" BasedOn="{StaticResource buttonStyle}">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="{StaticResource grayPrimary}" />
+            </Style>
+
+            <!--
+            <Style x:Key="wizardButton" TargetType="local:SportButton" BasedOn="{StaticResource buttonStyle}">
+                <Setter Property="BackgroundColor" Value="#3FFF" />
+                <Setter Property="BorderColor" Value="#AFFF" />
+                <Setter Property="TextColor" Value="#CFFF" />
+                <Setter Property="BorderWidth" Value=".5" />
+            </Style>
+            -->
+
+            <!--
+            <Style x:Key="imageButtonStyle" TargetType="local:ImageButton">
+                <Setter Property="HeightRequest">
+                    <Setter.Value>
+                        <OnPlatform x:TypeArguments="x:Double" iOS="40" Android="50" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            -->
+            <!--
+            <Style TargetType="local:ImageButton" BasedOn="{StaticResource imageButtonStyle}" />
+            -->
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

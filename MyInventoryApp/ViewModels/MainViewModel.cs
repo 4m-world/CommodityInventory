@@ -28,6 +28,22 @@ namespace MyInventoryApp.ViewModels
             _internetService = internetService;
             _navigationService = navigationService;
             _commodityService = commodityService;
+
+            CommodityItems = new ObservableCollection<CommodityItem>
+            {
+                new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
+                new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
+                new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
+                new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
+                new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
+                new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
+                new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
+                new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
+                new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
+                new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
+                new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
+                new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 }
+            };
         }
 
         ObservableCollection<CommodityItem> _commodityItems;

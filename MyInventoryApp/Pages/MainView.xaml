@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<layout:StyledTabbedPage 
+<ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    xmlns:layout="clr-namespace:MyInventoryApp.Controls.Layout"
     x:Class="MyInventoryApp.Pages.MainView"
+    xmlns:template="clr-namespace:MyInventoryApp.Pages.Templates"
+    BackgroundColor="Lime"
     Title="Commodity Registration">
-    <ContentPage Title="Commodities">
-        <Label> Testing new APP LAYOUT</Label>
-    </ContentPage>
-    <ContentPage Title="Settings">
-        <Label> Testing new APP LAYOUT</Label>
-    </ContentPage>
-</layout:StyledTabbedPage>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="AddButton"
+                     Icon="ic_sync_white"
+                     Text="Syncronize"
+                     AutomationId="AddButton"/>
+        <ToolbarItem x:Name="MoreButton"
+                     Icon="ic_more_vert_white"
+                     Text="More"
+                     AutomationId="MoreButton"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <template:CommodityListView 
+            x:Name="list"
+            ItemsSource="{Binding CommodityItems}"
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            />
+        
+    </ContentPage.Content>
+</ContentPage>
