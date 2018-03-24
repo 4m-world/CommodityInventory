@@ -4,17 +4,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="MyInventoryApp.Pages.MainView"
     xmlns:template="clr-namespace:MyInventoryApp.Pages.Templates"
-    BackgroundColor="Lime"
+    xmlns:ui="clr-namespace:MyInventoryApp.Controls"
     Title="Commodity Registration">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="AddButton"
-                     Icon="ic_sync_white"
-                     Text="Syncronize"
-                     AutomationId="AddButton"/>
+        <ToolbarItem x:Name="SettingButton"
+                     Icon="ic_two_cog"
+                     Text="settings"
+                     Command="{Binding }"
+                     AutomationId="SettingButton"/>
         <ToolbarItem x:Name="MoreButton"
-                     Icon="ic_more_vert_white"
-                     Text="More"
-                     AutomationId="MoreButton"/>
+                     Icon="ic_add_white"
+                     Text="Add"
+                     Command="{Binding AddCommand}"
+                     AutomationId="AddButton"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <template:CommodityListView 
@@ -22,6 +24,5 @@
             ItemsSource="{Binding CommodityItems}"
             IsRefreshing="{Binding IsBusy, Mode=OneWay}"
             />
-        
     </ContentPage.Content>
 </ContentPage>

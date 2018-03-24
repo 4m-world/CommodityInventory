@@ -1,166 +1,194 @@
-﻿using System;
-using System.IO;
-using Android.Content;
-using Android.Views;
-using Android.Widget;
-using MyInventoryApp.Controls.Fab;
-using MyInventoryApp.Droid.Controls.Fab;
-using MyInventoryApp.Droid.Renderers;
-using Xamarin.Forms;
-using Xamarin.Forms.Platform.Android;
+﻿//using System;
+//using System.ComponentModel;
+//using System.IO;
+//using System.Threading.Tasks;
+//using Android.App;
+//using Android.Content;
+//using Android.Content.Res;
+//using Android.Graphics;
+//using Android.Support.V4.View;
+//using Android.Views;
+//using Android.Widget;
+//using MyInventoryApp.Controls;
+//using MyInventoryApp.Droid.Controls;
+//using MyInventoryApp.Droid.Renderers;
+//using Xamarin.Forms;
+//using Xamarin.Forms.Platform.Android;
 
-/*
- * https://github.com/jamesmontemagno/FloatingActionButton-for-Xamarin.Android/
- */
 
-[assembly: ExportRenderer(typeof(FloatingActionButtonView), typeof(FloatingActionButtonRenderer))]
-namespace MyInventoryApp.Droid.Renderers
-{
-    public class FloatingActionButtonRenderer : ViewRenderer<FloatingActionButtonView, FrameLayout>
-    {
-        const int MARGIN_DIPS = 16;
-        const int FAB_HEIGHT_NORMAL = 56;
-        const int FAB_HEIGHT_MINI = 40;
-        const int FAB_FRAME_HEIGHT_WITH_PADDING = (MARGIN_DIPS * 2) + FAB_HEIGHT_NORMAL;
-        const int FAB_FRAME_WIDTH_WITH_PADDING = (MARGIN_DIPS * 2) + FAB_HEIGHT_NORMAL;
-        const int FAB_MINI_FRAME_HEIGHT_WITH_PADDING = (MARGIN_DIPS * 2) + FAB_HEIGHT_MINI;
-        const int FAB_MINI_FRAME_WIDTH_WITH_PADDING = (MARGIN_DIPS * 2) + FAB_HEIGHT_MINI;
+//[assembly: ExportRenderer(typeof(FloatingActionButton), typeof(FloatingActionButtonRenderer))]
+//namespace MyInventoryApp.Droid.Renderers
+//{
+//    public class FloatingActionButtonRenderer : ViewRenderer<FloatingActionButton, FrameLayout>
+//    {
+//        public FloatingActionButtonRenderer(Context context)
+//            :base(context)
+//        {
+            
+//        }
 
-        readonly FloatingActionButton fab;
+//		protected override void OnElementChanged(ElementChangedEventArgs<FloatingActionButton> e)
+//		{
+//            base.OnElementChanged(e);
 
-        public FloatingActionButtonRenderer(Context context)
-            : base(context)
-        {
-            float d = context.Resources.DisplayMetrics.Density;
-            var margin = (int)(MARGIN_DIPS * d); // margin in pixels
+//            if (Control == null)
+//            {
+//                ViewGroup.SetClipChildren(false);
+//                ViewGroup.SetClipToPadding(false);
+//                UpdateControlForSize();
 
-            fab = new FloatingActionButton(context);
-            var lp = new FrameLayout.LayoutParams(LayoutParams.WrapContent, LayoutParams.WrapContent)
-            {
-                Gravity = GravityFlags.CenterVertical | GravityFlags.CenterHorizontal,
-                LeftMargin = margin,
-                TopMargin = margin,
-                BottomMargin = margin,
-                RightMargin = margin
-            };
-            fab.LayoutParameters = lp;
-        }
+//                UpdateStyle();
+//            }
 
-        protected override void OnElementChanged(ElementChangedEventArgs<FloatingActionButtonView> e)
-        {
-            base.OnElementChanged(e);
+//            if (e.NewElement != null)
+//            {
+//                Control.Click += Fab_Click;
+//            }
+//            else if (e.OldElement != null)
+//            {
+//                Control.Click -= Fab_Click;
+//            }
+//		}
 
-            if (e.OldElement != null || this.Element == null)
-                return;
+//		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+//		{
+//            if (e.PropertyName == FloatingActionButton.SizeProperty.PropertyName)
+//            {
+//                this.UpdateControlForSize();
+//            }
+//            else if (e.PropertyName == FloatingActionButton.NormalColorProperty.PropertyName ||
+//                     e.PropertyName == FloatingActionButton.RippleColorProperty.PropertyName ||
+//                     e.PropertyName == FloatingActionButton.DisabledColorProperty.PropertyName)
+//            {
+//                this.SetBackgroundColors();
+//            }
+//            else if (e.PropertyName == FloatingActionButton.HasShadowProperty.PropertyName)
+//            {
+//                this.SetHasShadow();
+//            }
+//            else if (e.PropertyName == FloatingActionButton.SourceProperty.PropertyName)
+//            {
+//                this.SetImage();
+//            }
+//            else if (e.PropertyName == VisualElement.IsEnabledProperty.PropertyName)
+//            {
+//                this.UpdateEnabled();
+//            }
+//            else
+//            {
+//                base.OnElementPropertyChanged(sender, e);
+//            }
+//		}
 
-            if (e.OldElement != null)
-                e.OldElement.PropertyChanged -= HandlePropertyChanged;
+//        protected override void Dispose(bool disposing)
+//        {
+//            if (disposing)
+//            {
+//                this.Control.Click -= this.Fab_Click;
+//            }
 
-            if (this.Element != null)
-            {
-                //UpdateContent ();
-                this.Element.PropertyChanged += HandlePropertyChanged;
-            }
+//            base.Dispose(disposing);
+//        }
 
-            Element.Show = Show;
-            Element.Hide = Hide;
+//        void UpdateControlForSize()
+//        {
+//            LayoutInflater inflater = (LayoutInflater)Context.GetSystemService(Context.LayoutInflaterService);
 
-            SetFabImage(Element.ImageName);
-            SetFabSize(Element.Size);
+//            FloatingActionButton fab = null;
 
-            fab.ColorNormal = Element.ColorNormal.ToAndroid();
-            fab.ColorPressed = Element.ColorPressed.ToAndroid();
-            fab.ColorRipple = Element.ColorRipple.ToAndroid();
-            fab.HasShadow = Element.HasShadow;
-            fab.Click += Fab_Click;
+//            if (this.Element.Size  ==  FloatingActionButtonSize.Mini)
+//            {
+//                fab = (FloatingActionButton)inflater.Inflate(FAB.Droid.Resource.Layout.mini_fab, null);
+//            }
+//            else // then normal
+//            {
+//                fab = (FloatingActionButton)inflater.Inflate(FAB.Droid.Resource.Layout.normal_fab, null);
+//            }
 
-            var frame = new FrameLayout(Context);
-            frame.RemoveAllViews();
-            frame.AddView(fab);
+//            this.SetNativeControl(fab);
+//            this.UpdateStyle();
+//        }
 
-            SetNativeControl(frame);
-        }
+//        void UpdateStyle()
+//        {
+//            this.SetBackgroundColors();
 
-        public void Show(bool animate = true) =>
-            fab?.Show(animate);
+//            this.SetHasShadow();
 
-        public void Hide(bool animate = true) =>
-            fab?.Hide(animate);
+//            this.SetImage();
 
-        void HandlePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Content")
-            {
-                Tracker.UpdateLayout();
-            }
-            else if (e.PropertyName == FloatingActionButtonView.ColorNormalProperty.PropertyName)
-            {
-                fab.ColorNormal = Element.ColorNormal.ToAndroid();
-            }
-            else if (e.PropertyName == FloatingActionButtonView.ColorPressedProperty.PropertyName)
-            {
-                fab.ColorPressed = Element.ColorPressed.ToAndroid();
-            }
-            else if (e.PropertyName == FloatingActionButtonView.ColorRippleProperty.PropertyName)
-            {
-                fab.ColorRipple = Element.ColorRipple.ToAndroid();
-            }
-            else if (e.PropertyName == FloatingActionButtonView.ImageNameProperty.PropertyName)
-            {
-                SetFabImage(Element.ImageName);
-            }
-            else if (e.PropertyName == FloatingActionButtonView.SizeProperty.PropertyName)
-            {
-                SetFabSize(Element.Size);
-            }
-            else if (e.PropertyName == FloatingActionButtonView.HasShadowProperty.PropertyName)
-            {
-                fab.HasShadow = Element.HasShadow;
-            }
-        }
+//            this.UpdateEnabled();
+//        }
 
-        void SetFabImage(string imageName)
-        {
-            if (!string.IsNullOrWhiteSpace(imageName))
-            {
-                try
-                {
-                    var drawableNameWithoutExtension = Path.GetFileNameWithoutExtension(imageName).ToLower();
-                    var resources = Context.Resources;
-                    var imageResourceName = resources.GetIdentifier(drawableNameWithoutExtension, "drawable", Context.PackageName);
-                    fab.SetImageBitmap(Android.Graphics.BitmapFactory.DecodeResource(Context.Resources, imageResourceName));
-                }
-                catch (Exception ex)
-                {
-                    throw new FileNotFoundException("There was no Android Drawable by that name.", ex);
-                }
-            }
-        }
+//        void SetBackgroundColors()
+//        {
+//            this.Control.BackgroundTintList = ColorStateList.ValueOf(this.Element.NormalColor.ToAndroid());
+//            try
+//            {
+//                this.Control.SetRippleColor(this.Element.RippleColor.ToAndroid());
+//            }
+//            catch (MissingMethodException)
+//            {
+//                // ignore
+//            }
+//        }
 
-        void SetFabSize(FloatingActionButtonSize size)
-        {
-            if (size == FloatingActionButtonSize.Mini)
-            {
-                fab.Size = FabSize.Mini;
-                Element.WidthRequest = FAB_MINI_FRAME_WIDTH_WITH_PADDING;
-                Element.HeightRequest = FAB_MINI_FRAME_HEIGHT_WITH_PADDING;
-            }
-            else
-            {
-                fab.Size = FabSize.Normal;
-                Element.WidthRequest = FAB_FRAME_WIDTH_WITH_PADDING;
-                Element.HeightRequest = FAB_FRAME_HEIGHT_WITH_PADDING;
-            }
-        }
+//        void SetHasShadow()
+//        {
+//            try
+//            {
+//                if (this.Element.HasShadow)
+//                {
+//                    ViewCompat.SetElevation(this.Control, 20);
+//                }
+//                else
+//                {
+//                    ViewCompat.SetElevation(this.Control, 0);
+//                }
+//            }
+//            catch { }
+//        }
 
-        void Fab_Click(object sender, EventArgs e)
-        {
-            Element?.Clicked?.Invoke(sender, e);
+//        void SetImage()
+//        {
+//            Task.Run(async () =>
+//            {
+//                var bitmap = await this.GetBitmapAsync(this.Element.Source);
 
-            if (Element?.Command?.CanExecute(Element?.CommandParameter) ?? false)
-            {
-                Element.Command.Execute(Element?.CommandParameter);
-            }
-        }
-    }
-}
+//                (this.Context as Activity).RunOnUiThread(() =>
+//                {
+//                    this.Control?.SetImageBitmap(bitmap);
+//                });
+//            });
+//        }
+
+//        void UpdateEnabled()
+//        {
+//            this.Control.Enabled = this.Element.IsEnabled;
+
+//            if (this.Control.Enabled == false)
+//            {
+//                this.Control.BackgroundTintList = ColorStateList.ValueOf(this.Element.DisabledColor.ToAndroid());
+//            }
+//            else
+//            {
+//                this.UpdateBackgroundColor();
+//            }
+//        }
+
+//        async Task<Bitmap> GetBitmapAsync(ImageSource source)
+//        {
+//            var handler = GetHandler(source);
+//            var returnValue = (Bitmap)null;
+
+//            returnValue = await handler.LoadImageAsync(source, this.Context);
+
+//            return returnValue;
+//        }
+
+//        void Fab_Click(object sender, EventArgs e)
+//        {
+//            Element.Command?.Execute(EventArgs.Empty);
+//        }
+//	}
+//}

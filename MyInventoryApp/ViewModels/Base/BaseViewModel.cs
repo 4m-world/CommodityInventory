@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace MyInventoryApp.ViewModels.Base
 {
-    public abstract class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : ExtendedBindableObject//: INotifyPropertyChanged
     {
         bool _isBusy;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
         public bool IsBusy
         {
@@ -18,22 +19,17 @@ namespace MyInventoryApp.ViewModels.Base
 
         public virtual void OnAppearing(object navigationContext)
         {
-            
+
         }
 
         public virtual void OnDisappearing()
         {
-            
+
         }
 
-        protected void UpdateAndNotifyOnChange<T>(ref T store, T newValue, [CallerMemberName]string propertyName = "")
+        public virtual Task Initalize(object navigationContext)
         {
-            if(!EqualityComparer<T>.Default.Equals(store, newValue))
-            {
-                store = newValue;
-
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
+            return Task.FromResult(true);
         }
     }
 }

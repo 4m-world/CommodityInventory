@@ -38,7 +38,7 @@ namespace MyInventoryApp.Controls
             :base()
         {
             //BarcodeType = BarcodeType.Barcode39;
-          //FontFamily = "free3of9";
+          FontFamily = "free3of9";
         }
     }
 

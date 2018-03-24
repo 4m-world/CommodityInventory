@@ -2,7 +2,7 @@
 using Xamarin.Forms;
 using System.Windows.Input;
 
-namespace MyInventoryApp.Controls.Fab
+namespace MyInventoryApp.Controls
 {
     public class FloatingActionButtonView : View
     {

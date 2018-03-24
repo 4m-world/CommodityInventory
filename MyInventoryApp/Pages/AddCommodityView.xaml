@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:behavior="clr-namespace:MyInventoryApp.Behaviors"
+             xmlns:convertors="clr-namespace:MyInventoryApp.Converters"
+             Title="Add Commodity" 
+             x:Class="MyInventoryApp.Pages.AddCommodityView">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="SaveButton" Icon="ic_save_white" Text="Save" Command="{Binding SaveCommand}" AutomationId="SaveButton" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <convertors:FirstValidationErrorConverter x:Key="firstValidationErrorConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <AbsoluteLayout HeightRequest="160" BackgroundColor="Gray">
+                <Image AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                       AbsoluteLayout.LayoutFlags="All"
+                       BackgroundColor="Green"/>
+                <Button Text="Take"
+                        Image="ic_camera_white"
+                        AbsoluteLayout.LayoutBounds=".95, .95, 55, 55"
+                        AbsoluteLayout.LayoutFlags="XProportional, YProportional"/>
+            </AbsoluteLayout>
+            <ScrollView VerticalOptions="FillAndExpand" Padding="5">
+                <StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Entry Placeholder="Barcode" Keyboard="Numeric" HorizontalOptions="FillAndExpand">
+                            
+                        </Entry>
+                        <Button Image="ic_barcode_black" 
+                                Text="Scan" 
+                                HorizontalOptions="End" 
+                                Command="{Binding ScanBarcodeCommand}" />
+                    </StackLayout>
+                    <Entry Placeholder="Name" 
+                           Keyboard="Text"
+                           Text="{Binding Name.Value, Mode=TwoWay}">
+                        <Entry.Behaviors>
+                            
+                            <behavior:EventToCommandBehavior EventName="TextChanged"
+                                                             Command="{Binding ValidateNameCommand}"/>
+                            
+                        </Entry.Behaviors>
+                        <Entry.Triggers>
+                            <DataTrigger TargetType="Entry"
+                                         Binding="{Binding Name.IsValid}"
+                                         Value="False">
+                                <Setter Property="behavior:LineColorBehavior.LineColor"
+                                        Value="{StaticResource ErrorColor}"/>
+                            </DataTrigger>
+                        </Entry.Triggers>
+                    </Entry>
+                    <Label Text="{Binding Name.Errors, Converter={StaticResource firstValidationErrorConverter}}"
+                           Style="{StaticResource ValidationErrorLabelStyle}" />
+                    <Entry Placeholder="Alt. Name" Keyboard="Text" />
+                    <Picker Title="Measurment unit">
+                        <Picker.Items>
+                            <x:String>kg</x:String>
+                            <x:String>gm</x:String>
+                            <x:String>ltr</x:String>
+                            <x:String>ml</x:String>
+                        </Picker.Items>
+                    </Picker>
+                    <Entry Placeholder="Measurment Value" Keyboard="Numeric" />
+                    <StackLayout Padding="5, 10">
+                        <Label Text="Note:" TextColor="{StaticResource grayDark}" FontSize="12" />
+                        <Editor HeightRequest="120" />
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

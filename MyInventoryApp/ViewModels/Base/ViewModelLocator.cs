@@ -2,6 +2,7 @@
 using MyInventoryApp.Api.Services.Commodity;
 using MyInventoryApp.Api.Services.RequestProvider;
 using MyInventoryApp.Api.Services.Unit;
+using MyInventoryApp.Services.BarcodeScanner;
 using MyInventoryApp.Services.Dialog;
 using MyInventoryApp.Services.Internet;
 using MyInventoryApp.Services.Navigation;
@@ -14,6 +15,7 @@ namespace MyInventoryApp.ViewModels.Base
 {
     public class ViewModelLocator
     {
+
         readonly IUnityContainer _container;
 
         public ViewModelLocator()
@@ -22,11 +24,13 @@ namespace MyInventoryApp.ViewModels.Base
 
             // view models
             _container.RegisterType<MainViewModel>();
+            _container.RegisterType<AddCommodityViewModel>();
 
             _container.RegisterInstance(DependencyService.Get<IDialogService>());
             _container.RegisterInstance(DependencyService.Get<IInternetService>());
-           // _container.RegisterInstance(DependencyService.Get<IStorageService>());
+            // _container.RegisterInstance(DependencyService.Get<IStorageService>());
 
+            _container.RegisterType<IBarcodeScannerService, DefaultBarcodeScannerServices>();
             _container.RegisterType<ISettingsService, SettingsService>();
             _container.RegisterType<Services.Dependency.IDependencyService, Services.Dependency.DependencyService>();
 
@@ -40,6 +44,16 @@ namespace MyInventoryApp.ViewModels.Base
         public MainViewModel MainViewModel
         {
             get => _container.Resolve<MainViewModel>();
+        }
+
+        public AddCommodityViewModel AddCommodityViewModel
+        {
+            get => _container.Resolve<AddCommodityViewModel>();
+        }
+
+        public T Resolve<T>()
+        {
+            return _container.Resolve<T>();
         }
     }
 }
