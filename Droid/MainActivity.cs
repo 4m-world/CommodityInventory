@@ -12,27 +12,29 @@ namespace MyInventoryApp.Droid
               ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        protected override void OnCreate(Bundle bundle)
+        protected override void OnCreate(Bundle savedInstanceState)
         {
 
-            base.OnCreate(bundle);
+            base.OnCreate(savedInstanceState);
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
-            global::Xamarin.Forms.Forms.Init(this, bundle);
+            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             global::ZXing.Net.Mobile.Forms.Android.Platform.Init();
 
             LoadApplication(new App());
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions,
-                                                    Permission[] grantResults)
+                                                        Permission[] grantResults)
         {
             global::ZXing.Net.Mobile
                              .Android
                              .PermissionsHandler
                              .OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 	}

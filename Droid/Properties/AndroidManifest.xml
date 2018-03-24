@@ -5,4 +5,5 @@
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <application android:label="Inventory" android:icon="@drawable/icon" android:theme="@style/MyTheme">
     </application>
+
 </manifest>

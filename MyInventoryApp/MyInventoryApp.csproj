@@ -118,6 +118,11 @@
     <Compile Include="Converters\FirstValidationErrorConverter.cs" />
     <Compile Include="Services\BarcodeScanner\IBarcodeScannerService.cs" />
     <Compile Include="Services\BarcodeScanner\DefaultBarcodeScannerServices.cs" />
+    <Compile Include="Services\Camera\CameraPage.cs" />
+    <Compile Include="Services\Camera\PhotoResultEventArgs.cs" />
+    <Compile Include="Services\Camera\ICameraService.cs" />
+    <Compile Include="Services\Camera\CameraService.cs" />
+    <Compile Include="Converters\StringToImageConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

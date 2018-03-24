@@ -3,6 +3,7 @@ using MyInventoryApp.Api.Services.Commodity;
 using MyInventoryApp.Api.Services.RequestProvider;
 using MyInventoryApp.Api.Services.Unit;
 using MyInventoryApp.Services.BarcodeScanner;
+using MyInventoryApp.Services.Camera;
 using MyInventoryApp.Services.Dialog;
 using MyInventoryApp.Services.Internet;
 using MyInventoryApp.Services.Navigation;
@@ -31,6 +32,8 @@ namespace MyInventoryApp.ViewModels.Base
             // _container.RegisterInstance(DependencyService.Get<IStorageService>());
 
             _container.RegisterType<IBarcodeScannerService, DefaultBarcodeScannerServices>();
+            // Todo: Implemnt camera capture using services
+            //_container.RegisterType<ICameraService, CameraService>();
             _container.RegisterType<ISettingsService, SettingsService>();
             _container.RegisterType<Services.Dependency.IDependencyService, Services.Dependency.DependencyService>();
 

@@ -139,15 +139,9 @@
     <Compile Include="Services\Dialog\DialogService.cs" />
     <Compile Include="Activities\SplashActivity.cs" />
     <Compile Include="Renderers\FloatingActionButtonRenderer.cs" />
-    <Compile Include="Controls\Fab\Interfaces\IScrollDirectorListener.cs" />
-    <Compile Include="Controls\Fab\Interfaces\IOnScrollChangedListener.cs" />
-    <Compile Include="Controls\Fab\AbsListViewScrollDetector.cs" />
-    <Compile Include="Controls\Fab\FabSize.cs" />
-    <Compile Include="Controls\Fab\FloatingActionButton.cs" />
-    <Compile Include="Controls\Fab\ObservableScrollView.cs" />
-    <Compile Include="Controls\Fab\RecyclerViewScrollDetector.cs" />
-    <Compile Include="Controls\Fab\ScrollViewScrollDetector.cs" />
     <Compile Include="Renderers\BarcodLabelRenderer.cs" />
+    <Compile Include="Renderers\CameraPageRenderer.cs" />
+    <Compile Include="Controls\PaintCodeButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -185,6 +179,7 @@
     <AndroidResource Include="Resources\drawable\ic_more_vert_white.xml" />
     <AndroidResource Include="Resources\drawable\ic_two_cog.xml" />
     <AndroidResource Include="Resources\drawable\ic_save_white.xml" />
+    <AndroidResource Include="Resources\drawable\ic_camera_white.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
@@ -197,8 +192,6 @@
     <Folder Include="Activities\" />
     <Folder Include="Renderers\" />
     <Folder Include="Controls\" />
-    <Folder Include="Controls\Fab\" />
-    <Folder Include="Controls\Fab\Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\resources\fonts\free3of9\fre3of9x.ttf">

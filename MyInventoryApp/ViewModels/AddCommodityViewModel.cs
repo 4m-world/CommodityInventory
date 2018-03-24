@@ -4,6 +4,7 @@ using System.Windows.Input;
 using MyInventoryApp.Api.Models;
 using MyInventoryApp.Api.Services.Commodity;
 using MyInventoryApp.Services.BarcodeScanner;
+using MyInventoryApp.Services.Camera;
 using MyInventoryApp.Services.Dialog;
 using MyInventoryApp.Services.Internet;
 using MyInventoryApp.Services.Navigation;
@@ -31,8 +32,12 @@ namespace MyInventoryApp.ViewModels
         readonly IDialogService _dialogService;
         readonly IBarcodeScannerService _barcodeScannerService;
 
+
+        //readonly ICameraService _cameraService;
+
         public AddCommodityViewModel(
             ICommodityService commodityService,
+            //ICameraService cameraService,
             IBarcodeScannerService barcodeScannerService,
             INavigationService navigationService,
             IInternetService internetService,
@@ -43,11 +48,18 @@ namespace MyInventoryApp.ViewModels
             _navigationService = navigationService;
             _commodityService = commodityService;
             _barcodeScannerService = barcodeScannerService;
-            //_barcodeScannerService?.Initalize();
+            //_cameraService = cameraService;
+
             AddValidations();
         }
 
         ICommand _scanBarcodeCommand;
+        ICommand _capturCommand;
+
+        public ICommand CaptureCommand
+        {
+            get => _capturCommand = _capturCommand ?? new DelegateCommandAsync(CaptureExecute);
+        }
 
         public ICommand ScanBarcodeCommand
         {
@@ -122,6 +134,24 @@ namespace MyInventoryApp.ViewModels
             Barcode.Value = barcode;
         }
 
+        async Task CaptureExecute()
+        {
+            var cameraPage = new CameraPage();
+            cameraPage.OnPhotoResult += CameraPage_OnPhotoResult;
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PushModalAsync(cameraPage);
+        }
+
         #endregion
+
+        async void CameraPage_OnPhotoResult(PhotoResultEventArgs result)
+        {
+            await Xamarin.Forms.Application.Current.MainPage.Navigation.PopModalAsync();
+
+            if (!result.Success)
+                return;
+
+            Image.Value = Convert.ToBase64String(result.Image);
+        }
+
     }
 }
