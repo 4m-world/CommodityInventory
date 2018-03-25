@@ -36,6 +36,7 @@ namespace MyInventoryApp.ViewModels
 
         ObservableCollection<Unit> _units;
         bool _isValid;
+        int _id;
 
         ICommand _saveCommand;
         ICommand _capturCommand;
@@ -258,6 +259,36 @@ namespace MyInventoryApp.ViewModels
             if (IsBusy) return;
             IsBusy = true;
             Units = await _unitService.GetUnitsAsync();
+
+            if(navigationContext != null && navigationContext is CommodityItem commodity)
+            {
+                _id = commodity.Id;
+
+                Image.Value = commodity.Image;
+                RaisePropertyChanged(() => Image);
+
+                Barcode.Value = commodity.Barcode;
+                RaisePropertyChanged(() => Barcode);
+
+                Name.Value = commodity.Name;
+                RaisePropertyChanged(() => Name);
+
+                AltName.Value = commodity.AltName;
+                RaisePropertyChanged(() => AltName);
+
+                Unit.Value = commodity.Unit;
+                RaisePropertyChanged(() => Unit);
+
+                UnitValue.Value = commodity.UnitValue;
+                RaisePropertyChanged(() => UnitValue);
+
+                Price.Value = commodity.Price;
+                RaisePropertyChanged(() => Price);
+
+                Notes.Value = commodity.Notes;
+                RaisePropertyChanged(() => Notes);
+            }
+
             IsBusy = false;
         }
 

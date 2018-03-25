@@ -80,9 +80,10 @@ namespace MyInventoryApp.Services.Navigation
                 throw new Exception($"Cannot locate page for {viewModelType}");
             }
 
-            var page = paramter == null
-                ? Activator.CreateInstance(pageType) as Page
-                : Activator.CreateInstance(pageType, paramter) as Page;
+            //var page = paramter == null
+            //? Activator.CreateInstance(pageType) as Page
+            //: Activator.CreateInstance(pageType, paramter) as Page;
+            var page = Activator.CreateInstance(pageType) as Page;
             return page;
         }
 

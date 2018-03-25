@@ -159,6 +159,7 @@
     <Compile Include="Api\Database\CommodityDatabase.cs" />
     <Compile Include="Api\Services\Commodity\LocalCommodityService.cs" />
     <Compile Include="Api\Services\Unit\LocalUnitService.cs" />
+    <Compile Include="Converters\ItemTappedEventArgsConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">

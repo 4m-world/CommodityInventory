@@ -6,6 +6,7 @@
              x:Class="MyInventoryApp.App">
     <Application.Resources>
         <ResourceDictionary>
+            <convertor:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConverter"/>
             <Color x:Key="WhiteColor">#ffffff</Color>
             <Color x:Key="BlackColor">#000000</Color>
             <Color x:Key="BackgroundColor">#F4F6FA</Color>

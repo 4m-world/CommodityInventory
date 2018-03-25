@@ -101,7 +101,7 @@ namespace MyInventoryApp.ViewModels
 
         void PreviewCommandExecute(CommodityItem commodity)
         {
-            //_navigationService.NavigateTo<CommodityDetailsViewModel>(new CommodityItem());
+            _navigationService.NavigateTo<CommodityViewModel>(commodity);
         }
 
         Task DeleteCommandExecute(CommodityItem commodity)
