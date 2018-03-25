@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace MyInventoryApp.Pages
 {
-    public partial class AddCommodityView : ContentPage
+    public partial class CommodityView : ContentPage
     {
-        public AddCommodityView()
+        public CommodityView()
         {
             InitializeComponent();
         }

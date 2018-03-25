@@ -7,6 +7,7 @@ using MyInventoryApp.Api.Services.Unit;
 using MyInventoryApp.Services.BarcodeScanner;
 using MyInventoryApp.Services.Camera;
 using MyInventoryApp.Services.Dialog;
+using MyInventoryApp.Services.FileHelper;
 using MyInventoryApp.Services.Internet;
 using MyInventoryApp.Services.Navigation;
 using MyInventoryApp.Services.Settings;
@@ -64,13 +65,14 @@ namespace MyInventoryApp.ViewModels.Base
 
             // view models
             _container.RegisterType<MainViewModel>();
-            _container.RegisterType<AddCommodityViewModel>();
+            _container.RegisterType<CommodityViewModel>();
             _container.RegisterType<SettingsViewModel>();
             _container.RegisterType<UnitsViewModel>();
             _container.RegisterType<SyncViewModel>();
 
             _container.RegisterInstance(DependencyService.Get<IDialogService>());
             _container.RegisterInstance(DependencyService.Get<IInternetService>());
+            _container.RegisterInstance(DependencyService.Get<IFileHelper>());
             // _container.RegisterInstance(DependencyService.Get<IStorageService>());
 
             _container.RegisterType<IBarcodeScannerService, DefaultBarcodeScannerServices>();
@@ -82,8 +84,8 @@ namespace MyInventoryApp.ViewModels.Base
             // services
             _container.RegisterType<INavigationService, NavigationService>();
             _container.RegisterType<IRequestProvider, RequestProvider>();
-            _container.RegisterType<ICommodityService, CommodityService>();
-            _container.RegisterType<IUnitService, UnitService>();
+            _container.RegisterType<ICommodityService, LocalCommodityService>();
+            _container.RegisterType<IUnitService, LocalUnitService>();
         }
 
         public static MainViewModel MainViewModel

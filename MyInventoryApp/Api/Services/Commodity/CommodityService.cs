@@ -18,7 +18,7 @@ namespace MyInventoryApp.Api.Services.Commodity
             _requestProvider = requestProvider;
         }
 
-        public async Task<CommodityItem> AddCommodityItemAsync(CommodityItem commodity, string token)
+        public async Task<CommodityItem> AddCommodityItemAsync(CommodityItem commodity, string token = "")
         {
             var builder = new UriBuilder(GlobalSettings.Instance.UnitEndpoint)
             {
@@ -28,7 +28,7 @@ namespace MyInventoryApp.Api.Services.Commodity
             return await _requestProvider.PostAsync(builder.ToString(), commodity, token);
         }
 
-        public async Task DeleteCommodityItemAsync(string id, string token)
+        public async Task DeleteCommodityItemAsync(string id, string token = "")
         {
             var builder = new UriBuilder(GlobalSettings.Instance.UnitEndpoint)
             {
@@ -38,7 +38,7 @@ namespace MyInventoryApp.Api.Services.Commodity
             await _requestProvider.DeleteAsync(builder.ToString(), token);
         }
 
-        public async Task<ObservableCollection<CommodityItem>> GetCommoditiesAsync(string token)
+        public async Task<ObservableCollection<CommodityItem>> GetCommoditiesAsync(string token = "", int pageIndex = 0, int pageSize = 2)
         {
             var builder = new UriBuilder(GlobalSettings.Instance.UnitEndpoint)
             {
@@ -47,7 +47,7 @@ namespace MyInventoryApp.Api.Services.Commodity
 
             var uri = builder.ToString();
 
-            var result = await _requestProvider.GetAsync<IEnumerable<CommodityItem>>(uri, token);
+            var result = await _requestProvider.GetAsync<IEnumerable<CommodityItem>>(uri, token = "");
 
             if (result != null)
                 return result?.ToObservableCollection();
@@ -55,7 +55,7 @@ namespace MyInventoryApp.Api.Services.Commodity
             return new ObservableCollection<CommodityItem>();
         }
 
-        public async Task<CommodityItem> GetCommodityItemAsync(string id, string token)
+        public async Task<CommodityItem> GetCommodityItemAsync(int id, string token = "")
         {
             var builder = new UriBuilder(GlobalSettings.Instance.UnitEndpoint)
             {
@@ -69,7 +69,7 @@ namespace MyInventoryApp.Api.Services.Commodity
             return result;
         }
 
-        public async Task<ObservableCollection<CommodityItem>> SearchAsync(string term, string token)
+        public async Task<ObservableCollection<CommodityItem>> SearchAsync(string term, string token = "")
         {
             var builder = new UriBuilder(GlobalSettings.Instance.UnitEndpoint)
             {
@@ -86,7 +86,7 @@ namespace MyInventoryApp.Api.Services.Commodity
             return new ObservableCollection<CommodityItem>();
         }
 
-        public async Task<CommodityItem> UpdateCommodityItemAsync(CommodityItem commodity, string token)
+        public async Task<CommodityItem> UpdateCommodityItemAsync(CommodityItem commodity, string token = "")
         {
             var builder = new UriBuilder(GlobalSettings.Instance.UnitEndpoint)
             {
@@ -94,6 +94,16 @@ namespace MyInventoryApp.Api.Services.Commodity
             };
 
             return await _requestProvider.PutAsync(builder.ToString(), commodity, token);
+        }
+
+        public async Task DeleteCommodityItemAsync(int id, string token = "")
+        {
+            var builder = new UriBuilder(GlobalSettings.Instance.UnitEndpoint)
+            {
+                Path = $"{ApiUrlBase}/{id}"
+            };
+
+            await _requestProvider.DeleteAsync(builder.ToString(), token);
         }
     }
 }

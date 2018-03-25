@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:behavior="clr-namespace:MyInventoryApp.Behaviors" xmlns:convertors="clr-namespace:MyInventoryApp.Converters" xmlns:controls="clr-namespace:MyInventoryApp.Controls" IsBusy="{Binding IsBusy}" Title="Add Commodity" x:Class="MyInventoryApp.Pages.AddCommodityView">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:behavior="clr-namespace:MyInventoryApp.Behaviors" xmlns:convertors="clr-namespace:MyInventoryApp.Converters" xmlns:controls="clr-namespace:MyInventoryApp.Controls" IsBusy="{Binding IsBusy}" Title="Commodity Form" x:Class="MyInventoryApp.Pages.CommodityView">
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="SaveButton" Icon="ic_save_white" Text="Save" Command="{Binding SaveCommand}" AutomationId="SaveButton" />
+        <ToolbarItem x:Name="SaveButton" 
+                     Icon="ic_save_white" 
+                     Text="Save" 
+                     Command="{Binding SaveCommand}" 
+                     AutomationId="SaveButton" />
     </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -10,25 +14,41 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid ColumnSpacing="0" RowSpacing="0">
+        <Grid ColumnSpacing="0" 
+              RowSpacing="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <StackLayout>
-                <AbsoluteLayout HeightRequest="160" BackgroundColor="Gray">
-                    <Image AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Aspect="AspectFill" Source="{Binding Image.Value, Converter={StaticResource stringToImageConverter}}, Mode=OneWay}" BackgroundColor="Green" />
-                    <Image Source="ic_camera_white" WidthRequest="40" HeightRequest="40" AbsoluteLayout.LayoutBounds=".95, .95, 55, 55" AbsoluteLayout.LayoutFlags="XProportional, YProportional">
+                <AbsoluteLayout HeightRequest="160" 
+                                BackgroundColor="Gray">
+                    <Image AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                           AbsoluteLayout.LayoutFlags="All" 
+                           Aspect="Fill" 
+                           Source="{Binding Image.Value, Converter={StaticResource stringToImageConverter}}, Mode=OneWay}" 
+                           BackgroundColor="{StaticResource asphaltLight}" />
+                    <Image Source="ic_camera_white" 
+                           WidthRequest="40" 
+                           HeightRequest="40" 
+                           AbsoluteLayout.LayoutBounds=".95, .95, 55, 55" 
+                           AbsoluteLayout.LayoutFlags="XProportional, YProportional">
                         <Image.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding CaptureCommand}" />
                         </Image.GestureRecognizers>
                     </Image>
                 </AbsoluteLayout>
-                <ScrollView VerticalOptions="FillAndExpand" Padding="5">
+                <ScrollView VerticalOptions="FillAndExpand" 
+                            Padding="10">
                     <StackLayout>
                         <StackLayout Orientation="Horizontal">
-                            <Entry Placeholder="Barcode" Keyboard="Numeric" HorizontalOptions="FillAndExpand" Style="{StaticResource EntryStyle}" Text="{Binding Barcode.Value, Mode=TwoWay}">
+                            <Entry Placeholder="Barcode" 
+                                   Keyboard="Numeric" 
+                                   HorizontalOptions="FillAndExpand" 
+                                   Style="{StaticResource EntryStyle}" 
+                                   Text="{Binding Barcode.Value, Mode=TwoWay}">
                                 <Entry.Behaviors>
-                                    <behavior:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateBarcodeCommand}" />
+                                    <behavior:EventToCommandBehavior EventName="TextChanged" 
+                                                                     Command="{Binding ValidateBarcodeCommand}" />
                                 </Entry.Behaviors>
                                 <Entry.Triggers>
                                     <DataTrigger TargetType="Entry" Binding="{Binding Barcode.IsValid}" Value="false">
@@ -61,7 +81,7 @@
                             </Entry.Triggers>
                         </Entry>
                         <Label Text="{Binding AltName.Errors, Converter={StaticResource firstValidationErrorConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
-                        <controls:AdvPicker Title="Measurment unit" ItemsSource="{Binding Path=Units}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedItem="{Binding Unit.Value.Id, Mode=TwoWay}">
+                        <controls:AdvPicker Title="Measurment unit" ItemsSource="{Binding Path=Units}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedItem="{Binding Unit.Value, Mode=TwoWay}">
                             <controls:AdvPicker.Behaviors>
                                 <behavior:EventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding ValidateUnitCommand}" />
                             </controls:AdvPicker.Behaviors>
@@ -83,6 +103,17 @@
                             </Entry.Triggers>
                         </Entry>
                         <Label Text="{Binding UnitValue.Errors, Converter={StaticResource firstValidationErrorConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
+                        <Entry Placeholder="Price" Text="{Binding Price.Value}" Style="{StaticResource EntryStyle}" Keyboard="Numeric">
+                            <Entry.Behaviors>
+                                <behavior:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidatePriceCommand}" />
+                            </Entry.Behaviors>
+                            <Entry.Triggers>
+                                <DataTrigger TargetType="Entry" Binding="{Binding Price.IsValid}" Value="false">
+                                    <Setter Property="behavior:LineColorBehavior.LineColor" Value="{StaticResource ErrorColor}" />
+                                </DataTrigger>
+                            </Entry.Triggers>
+                        </Entry>
+                        <Label Text="{Binding Price.Errors, Converter={StaticResource firstValidationErrorConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
                         <StackLayout Padding="5, 10">
                             <Label Text="Note:" TextColor="{StaticResource grayDark}" FontSize="14" />
                             <Editor HeightRequest="120" Text="{Binding Notes.Value}" />

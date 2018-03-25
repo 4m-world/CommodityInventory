@@ -13,7 +13,7 @@
             <convertes:CountToBooleanConverter x:Key="countToBooleanConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <Grid ColumnSpacing="0" RowSpacing="0">
+    <Grid ColumnSpacing="0" RowSpacing="0" Padding="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -28,7 +28,9 @@
                   ItemsSource="{Binding Items}"
                   HasUnevenRows="true"
                   SeparatorVisibility="None"
-                  IsPullToRefreshEnabled="false"
+                  IsPullToRefreshEnabled="true"
+                  RefreshCommand="{Binding ReloadCommand}"
+                  IsRefreshing="{Binding IsRefreshing}"
                   RowHeight="80"
                   CachingStrategy="RecycleElement"
                   AutomationId="UnitsList">
@@ -49,7 +51,11 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <ActivityIndicator Color="{StaticResource LightGreenColor}" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center">
+        <ActivityIndicator Color="{StaticResource LightGreenColor}" 
+                           IsRunning="{Binding IsBusy}" 
+                           IsVisible="{Binding IsBusy}" 
+                           VerticalOptions="Center" 
+                           HorizontalOptions="Center">
                 <ActivityIndicator.WidthRequest>
                     <OnPlatform x:TypeArguments="x:Double">
                         <On Platform="iOS, Android" Value="100" />

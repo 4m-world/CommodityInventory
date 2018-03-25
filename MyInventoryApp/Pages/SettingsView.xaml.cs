@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using MyInventoryApp.ViewModels;
 using MyInventoryApp.ViewModels.Base;
 using Xamarin.Forms;
@@ -34,7 +35,9 @@ namespace MyInventoryApp.Pages
             {
                 await ((UnitsViewModel)UnitsView.BindingContext)?.Initalize(null);
                 await ((SyncViewModel)SyncView.BindingContext)?.Initalize(null);
-            }catch{}
+            }catch(Exception ex){
+                Debug.WriteLine("An Exception:" + ex);
+            }
         }
 
         protected override async void OnCurrentPageChanged()

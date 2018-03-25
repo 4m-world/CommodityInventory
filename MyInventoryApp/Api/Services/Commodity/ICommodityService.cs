@@ -8,11 +8,11 @@ namespace MyInventoryApp.Api.Services.Commodity
 {
     public interface ICommodityService
     {
-        Task<ObservableCollection<CommodityItem>> GetCommoditiesAsync(string token);
-        Task<CommodityItem> GetCommodityItemAsync(string id, string token);
-        Task<CommodityItem> UpdateCommodityItemAsync(CommodityItem commodity, string token);
-        Task<CommodityItem> AddCommodityItemAsync(CommodityItem commodity, string token);
-        Task<ObservableCollection<CommodityItem>> SearchAsync(string term, string token);
-        Task DeleteCommodityItemAsync(string id, string token);
+        Task<ObservableCollection<CommodityItem>> GetCommoditiesAsync(string token = "", int pageIndex = 0, int pageSize = 20);
+        Task<CommodityItem> GetCommodityItemAsync(int id, string token = "");
+        Task<CommodityItem> UpdateCommodityItemAsync(CommodityItem commodity, string token = "");
+        Task<CommodityItem> AddCommodityItemAsync(CommodityItem commodity, string token = "");
+        Task<ObservableCollection<CommodityItem>> SearchAsync(string term, string token = "");
+        Task DeleteCommodityItemAsync(int id, string token = "");
     }
 }

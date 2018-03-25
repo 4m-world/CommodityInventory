@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MyInventoryApp.Api.Models;
-using MyInventoryApp.Api.Services.Commodity;
+using MyInventoryApp.Api.Services.Unit;
 using MyInventoryApp.Services.Navigation;
 using MyInventoryApp.ViewModels.Base;
 
@@ -11,20 +10,29 @@ namespace MyInventoryApp.ViewModels
 {
     public class UnitsViewModel : BaseViewModel
     {
-        readonly ICommodityService _commodityService;
+        int pageIndex = 0;
+        bool _isRefreshing;
+        readonly IUnitService _unitService;
         readonly INavigationService _navigationService;
 
         ObservableCollection<Unit> _units;
         ICommand _loadMoreCommand;
         ICommand _viewCommand;
         ICommand _addCommand;
+        ICommand _reloadCommand;
 
         public UnitsViewModel(
-            ICommodityService commodityService,
+            IUnitService unitService,
             INavigationService navigationService)
         {
-            _commodityService = commodityService;
+            _unitService = unitService;
             _navigationService = navigationService;
+        }
+
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set => UpdateAndNotifyOnChange(ref _isRefreshing, value);
         }
 
         public ObservableCollection<Unit> Items
@@ -33,27 +41,49 @@ namespace MyInventoryApp.ViewModels
             set => UpdateAndNotifyOnChange(ref _units, value);
         }
 
-		public override async Task Initalize(object navigationContext)
-		{
-            IsBusy = true;
-            await Task.Delay(200);
-            Items = new ObservableCollection<Unit>
-            {
-                new Unit { Id = 1, Name = "Kilogram", Abbr = "Kg", UnitType = UnitType.Mass }
-            };
+        public override async Task Initalize(object navigationContext)
+        {
+            if (IsBusy) return;
 
-            IsBusy = false;
-		}
+            _units = new ObservableCollection<Unit>();
+            pageIndex = 0;
+            await LoadMoreExecute();
+
+        }
+
+        public ICommand ReloadCommand
+        {
+            get => _reloadCommand = _reloadCommand ?? new DelegateCommandAsync(async () =>
+            {
+                if (IsBusy) return;
+                pageIndex = 0;
+                Items.Clear();
+                await LoadMoreExecute();
+                IsRefreshing = false;
+            });
+        }
 
         public ICommand LoadMoreCommand
         {
             get => _loadMoreCommand = _loadMoreCommand ?? new DelegateCommandAsync(LoadMoreExecute);
         }
 
-        private Task LoadMoreExecute()
+        async Task LoadMoreExecute()
         {
-            return Task.FromResult(false);
-            //throw new NotImplementedException();
+            if (IsBusy) return;
+            IsBusy = true;
+            var result = await _unitService.GetUnitsAsync(pageIndex: pageIndex);
+            if (result != null && result.Count > 0)
+            {
+                foreach (var item in result)
+                {
+
+                    Items.Add(item);
+                }
+                RaisePropertyChanged(() => Items);
+            }
+            pageIndex++;
+            IsBusy = false;
         }
 
         public ICommand ViewCommand
@@ -75,5 +105,5 @@ namespace MyInventoryApp.ViewModels
         {
             return Task.FromResult(false);
         }
-	}
+    }
 }

@@ -14,9 +14,14 @@
                 return false;
             }
 
-            var str = value as string;
+            if (typeof(T) == typeof(string))
+            {
+                var str = value as string;
 
-            return !string.IsNullOrWhiteSpace(str);
+                return !string.IsNullOrWhiteSpace(str);
+            }
+
+            return !(value == null);
         }
     }
 }

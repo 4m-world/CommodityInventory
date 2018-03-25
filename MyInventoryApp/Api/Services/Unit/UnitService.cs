@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using MyInventoryApp.Api.Models;
 using MyInventoryApp.Api.Services.RequestProvider;
 using MyInventoryApp.Extensions;
 
@@ -17,7 +18,7 @@ namespace MyInventoryApp.Api.Services.Unit
             _requestProvider = requestProvider;
         }
 
-        public async Task<Models.Unit> AddUnit(Models.Unit unit, string token)
+        public async Task<Models.Unit> AddUnit(Models.Unit unit, string token = "")
         {
             var builder = new UriBuilder(GlobalSettings.Instance.UnitEndpoint)
             {
@@ -31,7 +32,7 @@ namespace MyInventoryApp.Api.Services.Unit
             return result;
         }
 
-        public async Task<Models.Unit> GetUnit(int id, string token)
+        public async Task<Models.Unit> GetUnit(int id, string token = "")
         {
             var builder = new UriBuilder(GlobalSettings.Instance.UnitEndpoint)
             {
@@ -45,7 +46,7 @@ namespace MyInventoryApp.Api.Services.Unit
             return result;
         }
 
-        public async Task<ObservableCollection<Models.Unit>> GetUnitsAsync(string token)
+        public async Task<ObservableCollection<Models.Unit>> GetUnitsAsync(string token = "", int pageIndex = 0, int pageSize = 20)
         {
             var builder = new UriBuilder(GlobalSettings.Instance.UnitEndpoint)
             {
@@ -54,12 +55,38 @@ namespace MyInventoryApp.Api.Services.Unit
 
             var uri = builder.ToString();
 
-            var result = await _requestProvider.GetAsync<IEnumerable<Models.Unit>>(uri, token);
+            var result = await _requestProvider.GetAsync<IEnumerable<Models.Unit>>(uri, token = "");
 
             if (result != null)
                 return result?.ToObservableCollection();
-            
+
             return new ObservableCollection<Models.Unit>();
+        }
+
+        public async Task<Models.Unit> UpdateUnit(Models.Unit unit, string token = "")
+        {
+            var builder = new UriBuilder(GlobalSettings.Instance.UnitEndpoint)
+            {
+                Path = $"{ApiUrlBase}{unit.Id}"
+            };
+
+            var uri = builder.ToString();
+
+            var result = await _requestProvider.PutAsync(uri, unit, token);
+
+            return result;
+        }
+
+        public async Task DeleteUnit(int id, string token = "")
+        {
+            var builder = new UriBuilder(GlobalSettings.Instance.UnitEndpoint)
+            {
+                Path = $"{ApiUrlBase}/{id}"
+            };
+
+            var uri = builder.ToString();
+
+            await _requestProvider.DeleteAsync(uri, token);
         }
     }
 }

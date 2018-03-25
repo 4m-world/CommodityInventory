@@ -70,7 +70,7 @@ namespace MyInventoryApp.Services.BarcodeScanner
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(this);
             await Task.Run(() => { while (!HasResult) { } });
-            Application.Current.MainPage.Navigation.RemovePage(this);
+            await Application.Current.MainPage.Navigation.PopModalAsync();//(this);
             return Result?.Text;
         }
 
@@ -82,7 +82,7 @@ namespace MyInventoryApp.Services.BarcodeScanner
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(this);
             await Task.Run(() => { while (!HasResult) { } });
-            Application.Current.MainPage.Navigation.RemovePage(this);
+            await Application.Current.MainPage.Navigation.PopModalAsync();//(this);
             return Result;
         }
 
@@ -107,7 +107,9 @@ namespace MyInventoryApp.Services.BarcodeScanner
                 AutoRotate = false,
                 TryHarder = true,
                 UseNativeScanning = true,
-                UseFrontCameraIfAvailable = false
+                UseFrontCameraIfAvailable = false, 
+                UseCode39ExtendedMode = true,
+
             };
         }
 
@@ -141,6 +143,7 @@ namespace MyInventoryApp.Services.BarcodeScanner
             HasResult = false;
             Result = null;
             ScannerView.IsScanning = true;
+            ScannerView.IsScanning = true;
         }
 
         /// <summary>
@@ -159,6 +162,7 @@ namespace MyInventoryApp.Services.BarcodeScanner
         /// <param name="result">Result.</param>
         void OnScanResult(Result result)
         {
+            ScannerView.IsAnalyzing = false;
             Result = result;
             HasResult = true;
         }

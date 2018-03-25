@@ -5,7 +5,9 @@
           xmlns:ui="clr-namespace:MyInventoryApp.Controls"
           xmlns:behaviors="clr-namespace:MyInventoryApp.Behaviors"
           x:Name="list"
-          IsPullToRefreshEnabled="false"
+          IsPullToRefreshEnabled="true"
+          RefreshCommand="{Binding ReloadCommand}"
+          IsRefreshing="{Binding IsReloading}"
           RowHeight="80"
           SeparatorVisibility="None"
           AutomationId="commodityList">

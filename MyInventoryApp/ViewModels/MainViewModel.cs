@@ -18,6 +18,19 @@ namespace MyInventoryApp.ViewModels
         readonly ICommodityService _commodityService;
         readonly IDialogService _dialogService;
 
+        int _nextPageIndex;
+        bool _isReloading;
+        ObservableCollection<CommodityItem> _commodityItems;
+
+
+        ICommand _viewCommand;
+        ICommand _deleteCommand;
+
+        ICommand _reloadCommand;
+        ICommand _settingsCommand;
+        ICommand _addCommand;
+        ICommand _loadMoreCommand;
+
         public MainViewModel(
             ICommodityService commodityService,
             INavigationService navigationService,
@@ -30,34 +43,23 @@ namespace MyInventoryApp.ViewModels
             _commodityService = commodityService;
 
             CommodityItems = new ObservableCollection<CommodityItem>();
-            //{
-            //    new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
-            //    new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
-            //    new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
-            //    new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
-            //    new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
-            //    new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
-            //    new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
-            //    new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
-            //    new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
-            //    new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
-            //    new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 },
-            //    new CommodityItem{ Id = Guid.NewGuid().ToString("N"), Name ="Commodity Name", AltName = "Commodity AltName", Barcode="1234567890", IsSyncronized=false, Unit = new Unit{ Abbr="g", UnitType= UnitType.Mass}, UnitValue = 200.5, Price = 50.2 }
-            //};
         }
-
-        ObservableCollection<CommodityItem> _commodityItems;
-
-        ICommand _addCommand;
-        ICommand _viewCommand;
-        ICommand _deleteCommand;
-        ICommand _loadMoreCommand;
-        ICommand _settingsCommand;
 
         public ObservableCollection<CommodityItem> CommodityItems
         {
             get => _commodityItems;
             set => UpdateAndNotifyOnChange(ref _commodityItems, value);
+        }
+
+        public bool IsReloading
+        {
+            get => _isReloading;
+            set => UpdateAndNotifyOnChange(ref _isReloading, value);
+        }
+
+        public ICommand ReloadCommand
+        {
+            get => _reloadCommand = _reloadCommand ?? new DelegateCommandAsync(ReloadExecute);
         }
 
         public ICommand SettingsCommad
@@ -70,6 +72,11 @@ namespace MyInventoryApp.ViewModels
             get => _addCommand = _addCommand ?? new DelegateCommand(AddCommandExecute);
         }
 
+        public ICommand LoadMoreCommand
+        {
+            get => _loadMoreCommand = _loadMoreCommand ?? new DelegateCommandAsync(LoadMoreExecute);
+        }
+
         public ICommand ViewCommand
         {
             get => _viewCommand = _viewCommand ?? new DelegateCommand<CommodityItem>(PreviewCommandExecute);
@@ -80,10 +87,7 @@ namespace MyInventoryApp.ViewModels
             get => _deleteCommand = _deleteCommand ?? new DelegateCommandAsync<CommodityItem>(DeleteCommandExecute);
         }
 
-        public ICommand LoadMoreCommand
-        {
-            get => _loadMoreCommand = _loadMoreCommand ?? new DelegateCommandAsync(LoadMoreCommandExecute);
-        }
+
 
         async Task SettingsCommandExecute()
         {
@@ -92,7 +96,7 @@ namespace MyInventoryApp.ViewModels
 
         void AddCommandExecute()
         {
-            _navigationService.NavigateTo<AddCommodityViewModel>();
+            _navigationService.NavigateTo<CommodityViewModel>();
         }
 
         void PreviewCommandExecute(CommodityItem commodity)
@@ -105,22 +109,45 @@ namespace MyInventoryApp.ViewModels
             return Task.FromResult(false);
         }
 
-        Task LoadMoreCommandExecute()
+        async Task LoadMoreExecute()
         {
+            if (IsBusy) return;
             IsBusy = true;
 
-            return Task.Run(async() =>
+            var result = await _commodityService.GetCommoditiesAsync(pageIndex: _nextPageIndex);
+            if (result != null && result.Count > 0)
             {
-                await Task.Delay(2500);
-                //CommodityItems.Add(new CommodityItem { Id = Guid.NewGuid().ToString("N"), Name = Guid.NewGuid().ToString("N").Substring(1, 8), AltName = "Commodity AltName", Barcode = "1234567890", IsSyncronized = false, Unit = new Unit { Abbr = "g", UnitType = UnitType.Mass }, UnitValue = 200.5, Price = 50.2 });
-                //CommodityItems.Add(new CommodityItem { Id = Guid.NewGuid().ToString("N"), Name = Guid.NewGuid().ToString("N").Substring(1, 8), AltName = "Commodity AltName", Barcode = "1234567890", IsSyncronized = false, Unit = new Unit { Abbr = "g", UnitType = UnitType.Mass }, UnitValue = 200.5, Price = 50.2 });
-                //CommodityItems.Add(new CommodityItem { Id = Guid.NewGuid().ToString("N"), Name = Guid.NewGuid().ToString("N").Substring(1, 8), AltName = "Commodity AltName", Barcode = "1234567890", IsSyncronized = false, Unit = new Unit { Abbr = "g", UnitType = UnitType.Mass }, UnitValue = 200.5, Price = 50.2 });
-                //CommodityItems.Add(new CommodityItem { Id = Guid.NewGuid().ToString("N"), Name = Guid.NewGuid().ToString("N").Substring(1, 8), AltName = "Commodity AltName", Barcode = "1234567890", IsSyncronized = false, Unit = new Unit { Abbr = "g", UnitType = UnitType.Mass }, UnitValue = 200.5, Price = 50.2 });
-                //CommodityItems.Add(new CommodityItem { Id = Guid.NewGuid().ToString("N"), Name = Guid.NewGuid().ToString("N").Substring(1, 8), AltName = "Commodity AltName", Barcode = "1234567890", IsSyncronized = false, Unit = new Unit { Abbr = "g", UnitType = UnitType.Mass }, UnitValue = 200.5, Price = 50.2 });
-                //CommodityItems.Add(new CommodityItem { Id = Guid.NewGuid().ToString("N"), Name = Guid.NewGuid().ToString("N").Substring(1, 8), AltName = "Commodity AltName", Barcode = "1234567890", IsSyncronized = false, Unit = new Unit { Abbr = "g", UnitType = UnitType.Mass }, UnitValue = 200.5, Price = 50.2 });
-                //CommodityItems.Add(new CommodityItem { Id = Guid.NewGuid().ToString("N"), Name = Guid.NewGuid().ToString("N").Substring(1, 8), AltName = "Commodity AltName", Barcode = "1234567890", IsSyncronized = false, Unit = new Unit { Abbr = "g", UnitType = UnitType.Mass }, UnitValue = 200.5, Price = 50.2 });
-                IsBusy = false;
-            });
+                foreach (var item in result)
+                {
+
+                    CommodityItems.Add(item);
+                }
+
+                RaisePropertyChanged(() => CommodityItems);
+            }
+            _nextPageIndex++;
+            IsBusy = false;
         }
-    }
+
+		public override async Task Initalize(object navigationContext)
+		{
+            base.Initalize(navigationContext).Wait();
+            await ReloadExecute();
+		}
+
+		public override async void OnAppearing(object navigationContext)
+		{
+            base.OnAppearing(navigationContext);
+            await Initalize(navigationContext);
+		}
+
+		async Task ReloadExecute()
+        {
+            if (IsBusy) return;
+            CommodityItems.Clear();
+            _nextPageIndex = 0;
+            await LoadMoreExecute();
+            IsReloading = false;
+        }
+	}
 }

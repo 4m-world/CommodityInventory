@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MyInventoryApp.Controls.Layout;
+using MyInventoryApp.ViewModels;
 using Xamarin.Forms;
 
 namespace MyInventoryApp.Pages
@@ -16,13 +17,13 @@ namespace MyInventoryApp.Pages
 
 		protected override void OnAppearing()
 		{
-            if (BindingContext is MainView mainViewModel)
-                mainViewModel.OnAppearing();
+            if (BindingContext is MainViewModel mainViewModel)
+                mainViewModel.OnAppearing(null);
 		}
 
 		protected override void OnDisappearing()
 		{
-            if (BindingContext is MainView mainViewModel)
+            if (BindingContext is MainViewModel mainViewModel)
                 mainViewModel.OnDisappearing();
 		}
 	}
