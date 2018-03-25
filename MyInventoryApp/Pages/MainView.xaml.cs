@@ -11,7 +11,7 @@ namespace MyInventoryApp.Pages
         {
             InitializeComponent();
 
-            BindingContext = App.Locator.MainViewModel;
+            //BindingContext = ViewApp.Locator.MainViewModel;
         }
 
 		protected override void OnAppearing()

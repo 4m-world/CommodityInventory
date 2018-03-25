@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Reflection;
 using MyInventoryApp.Api.Services.Commodity;
 using MyInventoryApp.Api.Services.RequestProvider;
 using MyInventoryApp.Api.Services.Unit;
@@ -14,18 +16,58 @@ using Xamarin.Forms;
 
 namespace MyInventoryApp.ViewModels.Base
 {
-    public class ViewModelLocator
+    public static class ViewModelLocator
     {
+        public static readonly BindableProperty AutoWireViewModelProperty =
+            BindableProperty.CreateAttached("AutoWireViewModel", 
+                                            typeof(bool), 
+                                            typeof(ViewModelLocator), 
+                                            default(bool), propertyChanged: OnAutoWireViewModelChanged);
 
-        readonly IUnityContainer _container;
+        public static bool GetAutoWireViewModel(BindableObject bindable)
+        {
+            return (bool)bindable.GetValue(AutoWireViewModelProperty);
+        }
 
-        public ViewModelLocator()
+        public static void SetAutoWireViewModel(BindableObject bindable, bool value)
+        {
+            bindable.SetValue(AutoWireViewModelProperty, value);
+        }
+
+        static void OnAutoWireViewModelChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var view = bindable as Element;
+            if (view == null)
+            {
+                return;
+            }
+
+            var viewType = view.GetType();
+            var viewName = viewType.FullName.Replace(".Pages.", ".ViewModels.");
+            var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+            var viewModelName = string.Format(CultureInfo.InvariantCulture, "{0}Model, {1}", viewName, viewAssemblyName);
+
+            var viewModelType = Type.GetType(viewModelName);
+            if (viewModelType == null)
+            {
+                return;
+            }
+            var viewModel = _container.Resolve(viewModelType);
+            view.BindingContext = viewModel;
+        }
+
+        static IUnityContainer _container;
+
+        static ViewModelLocator()
         {
             _container = new UnityContainer();
 
             // view models
             _container.RegisterType<MainViewModel>();
             _container.RegisterType<AddCommodityViewModel>();
+            _container.RegisterType<SettingsViewModel>();
+            _container.RegisterType<UnitsViewModel>();
+            _container.RegisterType<SyncViewModel>();
 
             _container.RegisterInstance(DependencyService.Get<IDialogService>());
             _container.RegisterInstance(DependencyService.Get<IInternetService>());
@@ -44,17 +86,12 @@ namespace MyInventoryApp.ViewModels.Base
             _container.RegisterType<IUnitService, UnitService>();
         }
 
-        public MainViewModel MainViewModel
+        public static MainViewModel MainViewModel
         {
             get => _container.Resolve<MainViewModel>();
         }
 
-        public AddCommodityViewModel AddCommodityViewModel
-        {
-            get => _container.Resolve<AddCommodityViewModel>();
-        }
-
-        public T Resolve<T>()
+        public static T Resolve<T>()
         {
             return _container.Resolve<T>();
         }

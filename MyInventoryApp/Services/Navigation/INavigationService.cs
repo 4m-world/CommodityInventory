@@ -1,4 +1,6 @@
 ﻿
+using System.Threading.Tasks;
+
 namespace MyInventoryApp.Services.Navigation
 {
     public interface INavigationService
@@ -8,5 +10,9 @@ namespace MyInventoryApp.Services.Navigation
         void NavigateBack();
 
         void NavigateBackToFirst();
+
+        Task InitializeAsync();
+
+        Task NavigateToAsync<TViewModel>(object navigationContext = null);
     }
 }

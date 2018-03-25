@@ -2,19 +2,12 @@
 
 using MyInventoryApp.ViewModels.Base;
 using MyInventoryApp.Pages;
+using MyInventoryApp.Services.Navigation;
 
 namespace MyInventoryApp
 {
     public partial class App : Application
     {
-        static ViewModelLocator _locator;
-
-        public static ViewModelLocator Locator
-        {
-            get => _locator = _locator ?? new ViewModelLocator();
-        }
-
-
         public bool IsNetworkReachable { get; set; }
 
         public App()
@@ -24,9 +17,11 @@ namespace MyInventoryApp
             InitApp();
         }
 
-        protected override void OnStart()
+        protected override async void OnStart()
         {
             // Handle when your app starts
+            var navigationService = ViewModelLocator.Resolve<INavigationService>();
+            await navigationService.InitializeAsync();
         }
 
         protected override void OnSleep()
@@ -41,7 +36,7 @@ namespace MyInventoryApp
 
         void InitApp()
         {
-            MainPage = new NavigationPage(new MainView());   
+            //MainPage = new NavigationPage(new MainView());   
         }
     }
 }

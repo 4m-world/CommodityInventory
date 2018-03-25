@@ -11,11 +11,9 @@
           AutomationId="commodityList">
     <ListView.Behaviors>
         <behaviors:InfiniteScrollBehavior LoadMoreCommand="{Binding LoadMoreCommand}"/>
-        <!--
         <behaviors:EventToCommandBehavior EventName="ItemSelected" 
                                           Command="{Binding ViewCommand}"
                                           EventArgsConverter="{StaticResource SelectedItemConverter}"/>
-        -->
     </ListView.Behaviors>
     <ListView.ItemTemplate>
         <DataTemplate>

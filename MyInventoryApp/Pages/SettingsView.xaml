@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" 
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+            xmlns:views="clr-namespace:MyInventoryApp.Pages" 
+            x:Class="MyInventoryApp.Pages.SettingsView" 
+            BarBackgroundColor="{StaticResource DarkGreenColor}"
+            BackgroundColor="{StaticResource BackgroundColor}" 
+            BarTextColor="{StaticResource WhiteColor}" 
+            xmlns:viewModelBase="clr-namespace:MyInventoryApp.ViewModels.Base; assembly=MyInventoryApp"
+            xmlns:controls="clr-namespace:MyInventoryApp.Controls"
+            viewModelBase:ViewModelLocator.AutoWireViewModel="true"
+            Title="Code Matrix">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="About" Icon="ic_about" />
+    </ContentPage.ToolbarItems>
+
+    <views:UnitsView x:Name="UnitsView" Icon="ic_units" >
+    </views:UnitsView>
+    <views:SyncView x:Name="SyncView" Icon="ic_sync_white" >
+    </views:SyncView>
+
+</TabbedPage>

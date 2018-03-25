@@ -142,6 +142,9 @@
     <Compile Include="Renderers\BarcodLabelRenderer.cs" />
     <Compile Include="Renderers\CameraPageRenderer.cs" />
     <Compile Include="Controls\PaintCodeButton.cs" />
+    <Compile Include="Renderers\BottomTabbedPageRenderer.cs" />
+    <Compile Include="Renderers\BadgeView.cs" />
+    <Compile Include="Extensions\ViewExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -180,6 +183,7 @@
     <AndroidResource Include="Resources\drawable\ic_two_cog.xml" />
     <AndroidResource Include="Resources\drawable\ic_save_white.xml" />
     <AndroidResource Include="Resources\drawable\ic_camera_white.xml" />
+    <AndroidResource Include="Resources\drawable\ic_units.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
@@ -192,6 +196,7 @@
     <Folder Include="Activities\" />
     <Folder Include="Renderers\" />
     <Folder Include="Controls\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\resources\fonts\free3of9\fre3of9x.ttf">

@@ -45,6 +45,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pages\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\UnitsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\Templates\UnitTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\SyncView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -98,10 +114,6 @@
     <Compile Include="Behaviors\InfiniteScrollBehavior.cs" />
     <Compile Include="Behaviors\EventToCommandBehavior.cs" />
     <Compile Include="Converters\SelectedItemEventArgsToSelectedItemConverter.cs" />
-    <Compile Include="Controls\Fab2\FloatingActionButton.cs" />
-    <Compile Include="Controls\Fab2\FloatingActionButtonSize.cs" />
-    <Compile Include="Controls\Fab2\FloatingActionMenu.cs" />
-    <Compile Include="Controls\Fab2\FloatingActionEventArgs.cs" />
     <Compile Include="ViewModels\AddCommodityViewModel.cs" />
     <Compile Include="Pages\AddCommodityView.xaml.cs">
       <DependentUpon>AddCommodityView.xaml</DependentUpon>
@@ -123,6 +135,26 @@
     <Compile Include="Services\Camera\ICameraService.cs" />
     <Compile Include="Services\Camera\CameraService.cs" />
     <Compile Include="Converters\StringToImageConverter.cs" />
+    <Compile Include="Controls\Picker\AdvPicker.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Pages\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CustomTabbedPage.cs" />
+    <Compile Include="Pages\UnitsView.xaml.cs">
+      <DependentUpon>UnitsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\CountToBooleanConverter.cs" />
+    <Compile Include="Pages\Templates\UnitTemplate.xaml.cs">
+      <DependentUpon>UnitTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\EnumToNameConverter.cs" />
+    <Compile Include="ViewModels\UnitsViewModel.cs" />
+    <Compile Include="Pages\SyncView.xaml.cs">
+      <DependentUpon>SyncView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Navigation\TabParameter.cs" />
+    <Compile Include="ViewModels\SyncViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xamarin.Forms.Core">
@@ -195,13 +227,14 @@
     <Folder Include="Controls\Labels\" />
     <Folder Include="Behaviors\" />
     <Folder Include="Converters\" />
-    <Folder Include="Controls\Fab2\" />
     <Folder Include="Validations\" />
     <Folder Include="Behaviors\Base\" />
     <Folder Include="Effects\" />
-    <Folder Include="Triggers\" />
     <Folder Include="Services\BarcodeScanner\" />
     <Folder Include="Services\Camera\" />
+    <Folder Include="Controls\Picker\" />
+    <Folder Include="Models\" />
+    <Folder Include="Models\Navigation\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.5.0.280555\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.5.0.280555\build\portable-win+net45+wp80+win81+wpa81\Xamarin.Forms.targets')" />

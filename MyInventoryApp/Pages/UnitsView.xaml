@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:template="clr-namespace:MyInventoryApp.Pages.Templates"
+             xmlns:convertes="clr-namespace:MyInventoryApp.Converters" 
+             xmlns:behaviors="clr-namespace:MyInventoryApp.Behaviors"
+             xmlns:viewModelBase="clr-namespace:MyInventoryApp.ViewModels.Base; assembly=MyInventoryApp"
+             x:Class="MyInventoryApp.Pages.UnitsView" 
+             viewModelBase:ViewModelLocator.AutoWireViewModel="true"
+             Title="Measurment Units">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <convertes:CountToBooleanConverter x:Key="countToBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid ColumnSpacing="0" RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid IsVisible="{Binding Items.Count, Converter={StaticResource countToBooleanConverter}, 
+            ConverterParameter=true}">
+            <Label Text="No Units are defined" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Center" />
+        </Grid>
+        <ListView x:Name="Units"
+                  IsVisible="{Binding Items.Count, Converter={StaticResource countToBooleanConverter}}"
+                  ItemsSource="{Binding Items}"
+                  HasUnevenRows="true"
+                  SeparatorVisibility="None"
+                  IsPullToRefreshEnabled="false"
+                  RowHeight="80"
+                  CachingStrategy="RecycleElement"
+                  AutomationId="UnitsList">
+            <ListView.Behaviors>
+                <behaviors:InfiniteScrollBehavior LoadMoreCommand="{Binding LoadMoreCommand}"/>
+
+                <behaviors:EventToCommandBehavior EventName="ItemSelected" 
+                                                  Command="{Binding ViewCommand}"
+                                                  EventArgsConverter="{StaticResource SelectedItemConverter}"/>
+            </ListView.Behaviors>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.View>
+                            <template:UnitTemplate/>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ActivityIndicator Color="{StaticResource LightGreenColor}" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center">
+                <ActivityIndicator.WidthRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS, Android" Value="100" />
+                        <On Platform="UWP, WinRT, WinPhone" Value="400" />
+                    </OnPlatform>
+                </ActivityIndicator.WidthRequest>
+            </ActivityIndicator>
+    </Grid>
+</ContentPage>

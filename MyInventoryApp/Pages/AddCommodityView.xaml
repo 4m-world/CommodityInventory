@@ -1,66 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:behavior="clr-namespace:MyInventoryApp.Behaviors" xmlns:convertors="clr-namespace:MyInventoryApp.Converters" Title="Add Commodity" x:Class="MyInventoryApp.Pages.AddCommodityView">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:behavior="clr-namespace:MyInventoryApp.Behaviors" xmlns:convertors="clr-namespace:MyInventoryApp.Converters" xmlns:controls="clr-namespace:MyInventoryApp.Controls" IsBusy="{Binding IsBusy}" Title="Add Commodity" x:Class="MyInventoryApp.Pages.AddCommodityView">
     <ContentPage.ToolbarItems>
         <ToolbarItem x:Name="SaveButton" Icon="ic_save_white" Text="Save" Command="{Binding SaveCommand}" AutomationId="SaveButton" />
     </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
             <convertors:FirstValidationErrorConverter x:Key="firstValidationErrorConverter" />
-            <convertors:StringToImageConverter x:Key="stringToImageConverter"/>
+            <convertors:StringToImageConverter x:Key="stringToImageConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <AbsoluteLayout HeightRequest="160" BackgroundColor="Gray">
-                <Image AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
-                       AbsoluteLayout.LayoutFlags="All" 
-                       Aspect="AspectFill"
-                       Source="{Binding Image.Value, Converter={StaticResource stringToImageConverter}}, Mode=OneWay}"
-                       BackgroundColor="Green" />
-                <Image Source="ic_camera_white" 
-                       WidthRequest="40" 
-                       HeightRequest="40" 
-                       AbsoluteLayout.LayoutBounds=".95, .95, 55, 55"
-                       AbsoluteLayout.LayoutFlags="XProportional, YProportional">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding CaptureCommand}"/>
-                    </Image.GestureRecognizers>
-                </Image>
-            </AbsoluteLayout>
-            <ScrollView VerticalOptions="FillAndExpand" Padding="5">
-                <StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <Entry Placeholder="Barcode" Keyboard="Numeric" HorizontalOptions="FillAndExpand">
+        <Grid ColumnSpacing="0" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackLayout>
+                <AbsoluteLayout HeightRequest="160" BackgroundColor="Gray">
+                    <Image AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Aspect="AspectFill" Source="{Binding Image.Value, Converter={StaticResource stringToImageConverter}}, Mode=OneWay}" BackgroundColor="Green" />
+                    <Image Source="ic_camera_white" WidthRequest="40" HeightRequest="40" AbsoluteLayout.LayoutBounds=".95, .95, 55, 55" AbsoluteLayout.LayoutFlags="XProportional, YProportional">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CaptureCommand}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </AbsoluteLayout>
+                <ScrollView VerticalOptions="FillAndExpand" Padding="5">
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Entry Placeholder="Barcode" Keyboard="Numeric" HorizontalOptions="FillAndExpand" Style="{StaticResource EntryStyle}" Text="{Binding Barcode.Value, Mode=TwoWay}">
+                                <Entry.Behaviors>
+                                    <behavior:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateBarcodeCommand}" />
+                                </Entry.Behaviors>
+                                <Entry.Triggers>
+                                    <DataTrigger TargetType="Entry" Binding="{Binding Barcode.IsValid}" Value="false">
+                                        <Setter Property="behavior:LineColorBehavior.LineColor" Value="{StaticResource ErrorColor}" />
+                                    </DataTrigger>
+                                </Entry.Triggers>
+                            </Entry>
+                            <Button Image="ic_barcode_black" Text="Scan" HorizontalOptions="End" Command="{Binding ScanBarcodeCommand}" />
+                        </StackLayout>
+                        <Label Text="{Binding Path=Barcode.Errors, Converter={StaticResource firstValidationErrorConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
+                        <Entry Placeholder="Name" Keyboard="Text" Style="{StaticResource EntryStyle}" Text="{Binding Name.Value, Mode=TwoWay}">
+                            <Entry.Behaviors>
+                                <behavior:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateNameCommand}" />
+                            </Entry.Behaviors>
+                            <Entry.Triggers>
+                                <DataTrigger TargetType="Entry" Binding="{Binding Name.IsValid}" Value="false">
+                                    <Setter Property="behavior:LineColorBehavior.LineColor" Value="{StaticResource ErrorColor}" />
+                                </DataTrigger>
+                            </Entry.Triggers>
                         </Entry>
-                        <Button Image="ic_barcode_black" Text="Scan" HorizontalOptions="End" Command="{Binding ScanBarcodeCommand}" />
+                        <Label Text="{Binding Name.Errors, Converter={StaticResource firstValidationErrorConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
+                        <Entry Placeholder="Alt. Name" Keyboard="Text" Style="{StaticResource EntryStyle}" Text="{Binding AltName.Value, Mode=TwoWay}">
+                            <Entry.Behaviors>
+                                <behavior:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateAltNameCommand}" />
+                            </Entry.Behaviors>
+                            <Entry.Triggers>
+                                <DataTrigger TargetType="Entry" Binding="{Binding AltName.IsValid}" Value="false">
+                                    <Setter Property="behavior:LineColorBehavior.LineColor" Value="{StaticResource ErrorColor}" />
+                                </DataTrigger>
+                            </Entry.Triggers>
+                        </Entry>
+                        <Label Text="{Binding AltName.Errors, Converter={StaticResource firstValidationErrorConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
+                        <controls:AdvPicker Title="Measurment unit" ItemsSource="{Binding Path=Units}" DisplayMemberPath="Name" SelectedValuePath="Id" SelectedItem="{Binding Unit.Value.Id, Mode=TwoWay}">
+                            <controls:AdvPicker.Behaviors>
+                                <behavior:EventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding ValidateUnitCommand}" />
+                            </controls:AdvPicker.Behaviors>
+                            <controls:AdvPicker.Triggers>
+                                <DataTrigger TargetType="controls:AdvPicker" Binding="{Binding Unit.IsValid}" Value="false">
+                                    <Setter Property="behavior:LineColorBehavior.LineColor" Value="{StaticResource ErrorColor}" />
+                                </DataTrigger>
+                            </controls:AdvPicker.Triggers>
+                        </controls:AdvPicker>
+                        <Label Text="{Binding Unit.Errors, Converter={StaticResource firstValidationErrorConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
+                        <Entry Placeholder="Measurment Value" Text="{Binding UnitValue.Value}" Style="{StaticResource EntryStyle}" Keyboard="Numeric">
+                            <Entry.Behaviors>
+                                <behavior:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateUnitValueCommand}" />
+                            </Entry.Behaviors>
+                            <Entry.Triggers>
+                                <DataTrigger TargetType="Entry" Binding="{Binding UnitValue.IsValid}" Value="false">
+                                    <Setter Property="behavior:LineColorBehavior.LineColor" Value="{StaticResource ErrorColor}" />
+                                </DataTrigger>
+                            </Entry.Triggers>
+                        </Entry>
+                        <Label Text="{Binding UnitValue.Errors, Converter={StaticResource firstValidationErrorConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
+                        <StackLayout Padding="5, 10">
+                            <Label Text="Note:" TextColor="{StaticResource grayDark}" FontSize="14" />
+                            <Editor HeightRequest="120" Text="{Binding Notes.Value}" />
+                        </StackLayout>
                     </StackLayout>
-                    <Entry Placeholder="Name" Keyboard="Text" Text="{Binding Name.Value, Mode=TwoWay}">
-                        <Entry.Behaviors>
-                            <behavior:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateNameCommand}" />
-                        </Entry.Behaviors>
-                        <Entry.Triggers>
-                            <DataTrigger TargetType="Entry" Binding="{Binding Name.IsValid}" Value="False">
-                                <Setter Property="behavior:LineColorBehavior.LineColor" Value="{StaticResource ErrorColor}" />
-                            </DataTrigger>
-                        </Entry.Triggers>
-                    </Entry>
-                    <Label Text="{Binding Name.Errors, Converter={StaticResource firstValidationErrorConverter}}" Style="{StaticResource ValidationErrorLabelStyle}" />
-                    <Entry Placeholder="Alt. Name" Keyboard="Text" />
-                    <Picker Title="Measurment unit">
-                        <Picker.Items>
-                            <x:String>kg</x:String>
-                            <x:String>gm</x:String>
-                            <x:String>ltr</x:String>
-                            <x:String>ml</x:String>
-                        </Picker.Items>
-                    </Picker>
-                    <Entry Placeholder="Measurment Value" Keyboard="Numeric" />
-                    <StackLayout Padding="5, 10">
-                        <Label Text="Note:" TextColor="{StaticResource grayDark}" FontSize="12" />
-                        <Editor HeightRequest="120" />
-                    </StackLayout>
-                </StackLayout>
-            </ScrollView>
-        </StackLayout>
+                </ScrollView>
+            </StackLayout>
+            <ActivityIndicator Color="{StaticResource LightGreenColor}" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center">
+                <ActivityIndicator.WidthRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS, Android" Value="100" />
+                        <On Platform="UWP, WinRT, WinPhone" Value="400" />
+                    </OnPlatform>
+                </ActivityIndicator.WidthRequest>
+            </ActivityIndicator>
+            <ActivityIndicator Color="{StaticResource LightGreenColor}" IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" VerticalOptions="Center" HorizontalOptions="Center">
+                <ActivityIndicator.WidthRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS, Android" Value="100" />
+                        <On Platform="UWP, WinRT, WinPhone" Value="400" />
+                    </OnPlatform>
+                </ActivityIndicator.WidthRequest>
+            </ActivityIndicator>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

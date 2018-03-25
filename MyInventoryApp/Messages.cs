@@ -11,5 +11,6 @@ namespace MyInventoryApp
 
         public static string IncomingPayloadReceived = "IncomingPayloadReceived";
 
+        public static string ChangeTab = "ChangeTab";
     }
 }

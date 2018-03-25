@@ -14,7 +14,7 @@ namespace MyInventoryApp.Validations
 
         public IList<IValidationRule<T>> Validations => _validationRules;
 
-        public IList<string> Erros
+        public IList<string> Errors
         {
             get => _errors;
             set => UpdateAndNotifyOnChange(ref _errors, value);
@@ -41,15 +41,15 @@ namespace MyInventoryApp.Validations
 
         public bool Validate()
         {
-            Erros.Clear();
+            Errors.Clear();
 
             var errors = _validationRules.Where(v => !v.Check(Value))
                                          .Select(v => v.ValidationMessage)
                                          .ToList();
 
-            Erros = errors;
+            Errors = errors;
 
-            IsValid = !Erros.Any();
+            IsValid = !Errors.Any();
 
             return IsValid;
         }

@@ -52,7 +52,7 @@ namespace MyInventoryApp.ViewModels
         ICommand _viewCommand;
         ICommand _deleteCommand;
         ICommand _loadMoreCommand;
-        ICommand _syncCommand;
+        ICommand _settingsCommand;
 
         public ObservableCollection<CommodityItem> CommodityItems
         {
@@ -60,9 +60,9 @@ namespace MyInventoryApp.ViewModels
             set => UpdateAndNotifyOnChange(ref _commodityItems, value);
         }
 
-        public ICommand SyncCommad
+        public ICommand SettingsCommad
         {
-            get => _syncCommand = _syncCommand ?? new DelegateCommand(SyncCommandExecute);
+            get => _settingsCommand = _settingsCommand ?? new DelegateCommandAsync(SettingsCommandExecute);
         }
 
         public ICommand AddCommand 
@@ -85,9 +85,9 @@ namespace MyInventoryApp.ViewModels
             get => _loadMoreCommand = _loadMoreCommand ?? new DelegateCommandAsync(LoadMoreCommandExecute);
         }
 
-        void SyncCommandExecute()
+        async Task SettingsCommandExecute()
         {
-            //_navigationService.NavigateTo<AddCommodityViewModel>();
+            await _navigationService.NavigateToAsync<SettingsViewModel>();
         }
 
         void AddCommandExecute()

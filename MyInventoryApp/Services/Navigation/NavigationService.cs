@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Reflection;
+using System.Threading.Tasks;
+using MyInventoryApp.ViewModels;
 using MyInventoryApp.ViewModels.Base;
 using Xamarin.Forms;
 
@@ -11,6 +13,30 @@ namespace MyInventoryApp.Services.Navigation
     /// </summary>
     public class NavigationService : INavigationService
     {
+        public Task InitializeAsync()
+        {
+            return NavigateToAsync<MainViewModel>();
+        }
+
+        public async Task NavigateToAsync<TViewModel>(object navigationContext = null)
+        {
+            var page = CreatePage(typeof(TViewModel), navigationContext);
+
+            if (Application.Current.MainPage is NavigationPage navigationPage)
+            {
+                await navigationPage.PushAsync(page);
+            }
+            else
+            {
+                Application.Current.MainPage = new NavigationPage(page);
+            }
+
+            if (page != null)
+            {
+                await ((BaseViewModel)page.BindingContext).Initalize(navigationContext);
+            }
+        }
+
         /// <summary>
         /// Navigates to the back.
         /// </summary>
@@ -35,7 +61,7 @@ namespace MyInventoryApp.Services.Navigation
         public void NavigateTo<TViewModel>(object navigationContext = null)
         {
             var page = CreatePage(typeof(TViewModel), navigationContext);
-            page.BindingContext = App.Locator.Resolve<TViewModel>();
+            page.BindingContext = ViewModelLocator.Resolve<TViewModel>();
             (page.BindingContext as BaseViewModel)?.Initalize(navigationContext);
             Application.Current.MainPage.Navigation.PushAsync(page);
         }
@@ -49,13 +75,14 @@ namespace MyInventoryApp.Services.Navigation
         Page CreatePage(Type viewModelType, object paramter)
         {
             var pageType = GetPageTypeForViewModel(viewModelType);
-            if(pageType == null){
+            if (pageType == null)
+            {
                 throw new Exception($"Cannot locate page for {viewModelType}");
             }
 
             var page = paramter == null
-                ?Activator.CreateInstance(pageType) as Page
-                :Activator.CreateInstance(pageType, paramter) as Page;
+                ? Activator.CreateInstance(pageType) as Page
+                : Activator.CreateInstance(pageType, paramter) as Page;
             return page;
         }
 
@@ -64,7 +91,8 @@ namespace MyInventoryApp.Services.Navigation
         /// </summary>
         /// <returns>The page type for view model.</returns>
         /// <param name="viewModelType">View model type.</param>
-        Type GetPageTypeForViewModel(Type viewModelType){
+        Type GetPageTypeForViewModel(Type viewModelType)
+        {
             var viewName = viewModelType.FullName
                                         .Replace("ViewModels", "Pages")
                                         .Replace("Model", "");
@@ -78,5 +106,6 @@ namespace MyInventoryApp.Services.Navigation
             var viewType = Type.GetType(viewAssemblyName);
             return viewType;
         }
+
     }
 }

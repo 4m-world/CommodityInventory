@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:viewModelBase="clr-namespace:MyInventoryApp.ViewModels.Base; assembly=MyInventoryApp"
+             viewModelBase:ViewModelLocator.AutoWireViewModel="true"
+             Title="Syncrnoize"
+             x:Class="MyInventoryApp.Pages.SyncView">
+    <ContentPage.Content>
+        <Grid Padding="10"
+              HorizontalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Total Records" HorizontalOptions="StartAndExpand" FontSize="{StaticResource LargeSize}" />
+                <Label Text="{Binding TotalRecords}" HorizontalOptions="End" FontSize="{StaticResource MediumSize}"/>
+            </StackLayout>
+            <Button Text="Share" Grid.Row="2" 
+                    HorizontalOptions="Fill" 
+                    VerticalOptions="Start"
+                    Command="{Binding ShareItems}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

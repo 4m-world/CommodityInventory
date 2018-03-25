@@ -13,7 +13,7 @@ namespace MyInventoryApp.Validations
 
         public bool Check(double value)
         {
-            return value <= MinRange || value >= MaxRange;
+            return value >= MinRange && value <= MaxRange;
         }
     }
 }

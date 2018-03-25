@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:converter="clr-namespace:MyInventoryApp.Converters" 
+             x:Class="MyInventoryApp.Pages.Templates.UnitTemplate">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converter:EnumToNameConverter x:Key="enumToNameConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid BackgroundColor="{StaticResource BackgroundColor}">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label Text="{Binding Name}" 
+                   FontSize="{StaticResource LargeSize}" />
+            <StackLayout Orientation="Horizontal" 
+                         HorizontalOptions="FillAndExpand" 
+                         Spacing="0" 
+                         Grid.Row="1">
+                <Label Text="{Binding Abbr}" 
+                       FontSize="{StaticResource LittleSize}" 
+                       HorizontalOptions="Start" />
+                <Label Text="{Binding UnitType, Converter={StaticResource enumToNameConverter}}" 
+                       FontSize="{StaticResource LittleSize}" 
+                       HorizontalOptions="End" />
+            </StackLayout>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

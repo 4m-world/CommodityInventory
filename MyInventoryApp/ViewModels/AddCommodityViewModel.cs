@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MyInventoryApp.Api.Models;
@@ -10,13 +11,12 @@ using MyInventoryApp.Services.Internet;
 using MyInventoryApp.Services.Navigation;
 using MyInventoryApp.Validations;
 using MyInventoryApp.ViewModels.Base;
+using System.Linq;
 
 namespace MyInventoryApp.ViewModels
 {
     public class AddCommodityViewModel : BaseViewModel
     {
-        //CommodityItem _commodiy;
-
         ValidatableObject<string> _name = new ValidatableObject<string>();
         ValidatableObject<string> _altName = new ValidatableObject<string>();
         ValidatableObject<string> _barcode = new ValidatableObject<string>();
@@ -32,12 +32,12 @@ namespace MyInventoryApp.ViewModels
         readonly IDialogService _dialogService;
         readonly IBarcodeScannerService _barcodeScannerService;
 
+        ObservableCollection<Unit> _units;
 
-        //readonly ICameraService _cameraService;
+        public int UnitSelectedIndex { get; set; }
 
         public AddCommodityViewModel(
             ICommodityService commodityService,
-            //ICameraService cameraService,
             IBarcodeScannerService barcodeScannerService,
             INavigationService navigationService,
             IInternetService internetService,
@@ -48,13 +48,23 @@ namespace MyInventoryApp.ViewModels
             _navigationService = navigationService;
             _commodityService = commodityService;
             _barcodeScannerService = barcodeScannerService;
-            //_cameraService = cameraService;
 
             AddValidations();
         }
 
+        public ObservableCollection<Unit> Units
+        {
+            get => _units;
+            set => UpdateAndNotifyOnChange(ref _units, value);
+        }
+
         ICommand _scanBarcodeCommand;
         ICommand _capturCommand;
+        ICommand _validateBarcodeCommand;
+        ICommand _validateAltNameCommand;
+        ICommand _validateUnitCommand;
+        ICommand _validateUnitValueCommand;
+        ICommand _saveCommand;
 
         public ICommand CaptureCommand
         {
@@ -64,6 +74,48 @@ namespace MyInventoryApp.ViewModels
         public ICommand ScanBarcodeCommand
         {
             get => _scanBarcodeCommand = _scanBarcodeCommand ?? new DelegateCommandAsync(ScanBarcodeExecute);
+        }
+
+        public ICommand ValidateBarcodeCommand
+        {
+            get => _validateBarcodeCommand = _validateBarcodeCommand ?? new DelegateCommand(() =>
+            {
+                _barcode.Validate();
+            });
+        }
+
+        public ICommand ValidateAltNameCommand
+        {
+            get => _validateAltNameCommand = _validateAltNameCommand ?? new DelegateCommand(() =>
+            {
+                _altName.Validate();
+            });
+        }
+
+        public ICommand ValidateUnitCommand
+        {
+            get => _validateUnitCommand = _validateUnitCommand ?? new DelegateCommand(() =>
+            {
+                _unit.Validate();
+            });
+        }
+
+        public ICommand ValidateUnitValueCommand
+        {
+            get => _validateUnitValueCommand = _validateUnitValueCommand ?? new DelegateCommand(() =>
+            {
+                _unitValue.Validate();
+            });
+        }
+
+        public ICommand SaveCommand
+        {
+            get => _saveCommand = _saveCommand ?? new DelegateCommandAsync(async () =>
+            {
+                IsBusy = true;
+                await Task.Delay(2000);
+                IsBusy = false;
+            });
         }
 
 
@@ -129,7 +181,7 @@ namespace MyInventoryApp.ViewModels
 
         async Task ScanBarcodeExecute()
         {
-           var barcode = await _barcodeScannerService.ReadBarcodeAsync();
+            var barcode = await _barcodeScannerService.ReadBarcodeAsync();
 
             Barcode.Value = barcode;
         }
