@@ -11,6 +11,7 @@ using MyInventoryApp.Services.FileHelper;
 using MyInventoryApp.Services.Internet;
 using MyInventoryApp.Services.Navigation;
 using MyInventoryApp.Services.Settings;
+using MyInventoryApp.Services.Share;
 using MyInventoryApp.Services.Storage;
 using Unity;
 using Xamarin.Forms;
@@ -73,6 +74,7 @@ namespace MyInventoryApp.ViewModels.Base
             _container.RegisterInstance(DependencyService.Get<IDialogService>());
             _container.RegisterInstance(DependencyService.Get<IInternetService>());
             _container.RegisterInstance(DependencyService.Get<IFileHelper>());
+            _container.RegisterInstance(DependencyService.Get<IShareService>());
             // _container.RegisterInstance(DependencyService.Get<IStorageService>());
 
             _container.RegisterType<IBarcodeScannerService, DefaultBarcodeScannerServices>();

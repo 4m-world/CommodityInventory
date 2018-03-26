@@ -30,6 +30,12 @@ namespace MyInventoryApp.Api.Services.Commodity
                    ).ToObservableCollection();
         }
 
+        public async Task<int> GetCommoditiesCountAsync(string token = "")
+        {
+            return await CommodityDatabase.Instance
+                                          .TotalCommoditiesAsync();
+        }
+
         public async Task<CommodityItem> GetCommodityItemAsync(int id, string token = "")
         {
             return await CommodityDatabase.Instance

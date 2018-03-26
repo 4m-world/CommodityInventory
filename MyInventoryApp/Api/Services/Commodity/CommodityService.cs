@@ -105,5 +105,10 @@ namespace MyInventoryApp.Api.Services.Commodity
 
             await _requestProvider.DeleteAsync(builder.ToString(), token);
         }
+
+        public Task<int> GetCommoditiesCountAsync(string token = "")
+        {
+            throw new NotImplementedException();
+        }
     }
 }

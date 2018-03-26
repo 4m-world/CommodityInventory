@@ -170,6 +170,7 @@
     <Compile Include="Renderers\BadgeView.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
     <Compile Include="Services\FileHelper\FileHelper.cs" />
+    <Compile Include="Services\ShareService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

@@ -17,7 +17,7 @@
                 <Label Text="Total Records" HorizontalOptions="StartAndExpand" FontSize="{StaticResource LargeSize}" />
                 <Label Text="{Binding TotalRecords}" HorizontalOptions="End" FontSize="{StaticResource MediumSize}"/>
             </StackLayout>
-            <Button Text="Share" Grid.Row="2" 
+            <Button Text="{Binding Progress}" Grid.Row="2" 
                     HorizontalOptions="Fill" 
                     VerticalOptions="Start"
                     Command="{Binding ShareItems}"/>

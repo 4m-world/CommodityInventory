@@ -14,5 +14,7 @@ namespace MyInventoryApp.Api.Services.Commodity
         Task<CommodityItem> AddCommodityItemAsync(CommodityItem commodity, string token = "");
         Task<ObservableCollection<CommodityItem>> SearchAsync(string term, string token = "");
         Task DeleteCommodityItemAsync(int id, string token = "");
+
+        Task<int> GetCommoditiesCountAsync(string token = "");
     }
 }
